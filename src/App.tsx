@@ -31,12 +31,12 @@ export default function App() {
   const [matrix] = useState(initialStakeholderMatrix);
   const [cyberMetrics] = useState(initialCyberMetrics);
 
-  const [activeTab, setActiveTab] = useState<string>('dashboard');
+  const [activeTab, setActiveTab] = useState<string>('login');
   const [selectedCompartmentId, setSelectedCompartmentId] = useState<string | null>('eng-room-lower');
   const [selectedNotificationId, setSelectedNotificationId] = useState<string | null>('notif-101');
   
   const [gloveMode, setGloveMode] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [userRole, setUserRole] = useState<'manager' | 'engineer'>('manager');
   const [isMobileFrame, setIsMobileFrame] = useState<boolean>(false);
 
@@ -272,24 +272,26 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 font-sans antialiased selection:bg-blue-600 selection:text-white flex flex-col">
-      {/* Industrial Navbar */}
-      <Navbar
-        vesselStatus={vesselStatus}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        gloveMode={gloveMode}
-        setGloveMode={handleSetGloveMode}
-        userRole={userRole}
-        setUserRole={handleSetUserRole}
-        isMobileFrame={isMobileFrame}
-        setIsMobileFrame={setIsMobileFrame}
-        isLoggedIn={isLoggedIn}
-        onLogout={handleLogout}
-        onSimulateFire={handleSimulateFire}
-        onSimulateCyber={handleSimulateCyber}
-        onResetSimulations={handleResetSimulations}
-        hasCriticalAlert={hasCriticalAlert}
-      />
+      {/* Industrial Navbar - Only visible after successful login */}
+      {isLoggedIn && (
+        <Navbar
+          vesselStatus={vesselStatus}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          gloveMode={gloveMode}
+          setGloveMode={handleSetGloveMode}
+          userRole={userRole}
+          setUserRole={handleSetUserRole}
+          isMobileFrame={isMobileFrame}
+          setIsMobileFrame={setIsMobileFrame}
+          isLoggedIn={isLoggedIn}
+          onLogout={handleLogout}
+          onSimulateFire={handleSimulateFire}
+          onSimulateCyber={handleSimulateCyber}
+          onResetSimulations={handleResetSimulations}
+          hasCriticalAlert={hasCriticalAlert}
+        />
+      )}
 
       {/* Main Container Layout */}
       <div className="flex-1 w-full mx-auto flex justify-center items-start transition-all duration-500 ease-in-out">
@@ -319,114 +321,118 @@ export default function App() {
 
             {/* Scrollable Frame Content Body */}
             <div className="flex-1 overflow-y-auto flex flex-col scrollbar-thin">
-              <SidebarNavigation
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                gloveMode={gloveMode}
-                unacknowledgedCount={unacknowledgedCount}
-                criticalCount={criticalCount}
-                cyberCount={cyberCount}
-                isLoggedIn={isLoggedIn}
-              />
+              {isLoggedIn && (
+                <SidebarNavigation
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  gloveMode={gloveMode}
+                  unacknowledgedCount={unacknowledgedCount}
+                  criticalCount={criticalCount}
+                  cyberCount={cyberCount}
+                  isLoggedIn={isLoggedIn}
+                />
+              )}
 
               <main className="flex-1 p-3 min-w-0">
-                {activeTab === 'login' && (
+                {!isLoggedIn || activeTab === 'login' ? (
                   <LoginScreen
                     onLoginSuccess={handleLoginSuccess}
                     gloveMode={gloveMode}
                   />
-                )}
-
-                {activeTab === 'dashboard' && (
-                  <DashboardView
-                    vesselStatus={vesselStatus}
-                    compartments={compartments}
-                    notifications={notifications}
-                    auditLogs={auditLogs}
-                    userRole={userRole}
-                    setUserRole={handleSetUserRole}
-                    onSelectCompartment={(id) => setSelectedCompartmentId(id)}
-                    onSelectNotification={(id) => setSelectedNotificationId(id)}
-                    onAcknowledgeNotification={handleAcknowledgeNotification}
-                    gloveMode={gloveMode}
-                    onSimulateFire={handleSimulateFire}
-                    onSimulateCyber={handleSimulateCyber}
-                    onResetSimulations={handleResetSimulations}
-                    setActiveTab={setActiveTab}
-                  />
-                )}
-
-                {activeTab === 'notifications' && (
-                  <NotificationsView
-                    notifications={notifications}
-                    onAcknowledge={handleAcknowledgeNotification}
-                    onAcknowledgeAll={handleAcknowledgeAll}
-                    onSelectNotification={(id) => setSelectedNotificationId(id)}
-                    gloveMode={gloveMode}
-                    setActiveTab={setActiveTab}
-                    onSendTestPush={() => triggerPushNotification(
-                      'TEST MARITIME PUSH ALERT',
-                      'SOLAS II-2 Water Mist Line 18.4 Bar Operational & Enclave Synced.'
+                ) : (
+                  <>
+                    {activeTab === 'dashboard' && (
+                      <DashboardView
+                        vesselStatus={vesselStatus}
+                        compartments={compartments}
+                        notifications={notifications}
+                        auditLogs={auditLogs}
+                        userRole={userRole}
+                        setUserRole={handleSetUserRole}
+                        onSelectCompartment={(id) => setSelectedCompartmentId(id)}
+                        onSelectNotification={(id) => setSelectedNotificationId(id)}
+                        onAcknowledgeNotification={handleAcknowledgeNotification}
+                        gloveMode={gloveMode}
+                        onSimulateFire={handleSimulateFire}
+                        onSimulateCyber={handleSimulateCyber}
+                        onResetSimulations={handleResetSimulations}
+                        setActiveTab={setActiveTab}
+                      />
                     )}
-                  />
-                )}
 
-                {activeTab === 'audit-logs' && (
-                  <AuditLogsView
-                    auditLogs={auditLogs}
-                    userRole={userRole}
-                    gloveMode={gloveMode}
-                  />
-                )}
+                    {activeTab === 'notifications' && (
+                      <NotificationsView
+                        notifications={notifications}
+                        onAcknowledge={handleAcknowledgeNotification}
+                        onAcknowledgeAll={handleAcknowledgeAll}
+                        onSelectNotification={(id) => setSelectedNotificationId(id)}
+                        gloveMode={gloveMode}
+                        setActiveTab={setActiveTab}
+                        onSendTestPush={() => triggerPushNotification(
+                          'TEST MARITIME PUSH ALERT',
+                          'SOLAS II-2 Water Mist Line 18.4 Bar Operational & Enclave Synced.'
+                        )}
+                      />
+                    )}
 
-                {activeTab === 'system-backup' && (
-                  <SystemBackupView
-                    vesselStatus={vesselStatus}
-                    gloveMode={gloveMode}
-                  />
-                )}
+                    {activeTab === 'audit-logs' && (
+                      <AuditLogsView
+                        auditLogs={auditLogs}
+                        userRole={userRole}
+                        gloveMode={gloveMode}
+                      />
+                    )}
 
-                {activeTab === 'incident-detail' && (
-                  <IncidentDetailView
-                    notification={currentSelectedNotification}
-                    onAcknowledge={handleAcknowledgeNotification}
-                    gloveMode={gloveMode}
-                    onBack={() => setActiveTab('notifications')}
-                  />
-                )}
+                    {activeTab === 'system-backup' && (
+                      <SystemBackupView
+                        vesselStatus={vesselStatus}
+                        gloveMode={gloveMode}
+                      />
+                    )}
 
-                {activeTab === 'vessel-map' && (
-                  <VesselMapView
-                    compartments={compartments}
-                    selectedCompartmentId={selectedCompartmentId}
-                    onSelectCompartment={(id) => setSelectedCompartmentId(id)}
-                    gloveMode={gloveMode}
-                  />
-                )}
+                    {activeTab === 'incident-detail' && (
+                      <IncidentDetailView
+                        notification={currentSelectedNotification}
+                        onAcknowledge={handleAcknowledgeNotification}
+                        gloveMode={gloveMode}
+                        onBack={() => setActiveTab('notifications')}
+                      />
+                    )}
 
-                {activeTab === 'stakeholder-matrix' && (
-                  <StakeholderMatrixView
-                    matrix={matrix}
-                    gloveMode={gloveMode}
-                  />
-                )}
+                    {activeTab === 'vessel-map' && (
+                      <VesselMapView
+                        compartments={compartments}
+                        selectedCompartmentId={selectedCompartmentId}
+                        onSelectCompartment={(id) => setSelectedCompartmentId(id)}
+                        gloveMode={gloveMode}
+                      />
+                    )}
 
-                {activeTab === 'analytics' && (
-                  <AnalyticsView />
-                )}
+                    {activeTab === 'stakeholder-matrix' && (
+                      <StakeholderMatrixView
+                        matrix={matrix}
+                        gloveMode={gloveMode}
+                      />
+                    )}
 
-                {activeTab === 'cybersecurity' && (
-                  <CybersecurityDashboardView
-                    cyberMetrics={cyberMetrics}
-                    gloveMode={gloveMode}
-                  />
-                )}
+                    {activeTab === 'analytics' && (
+                      <AnalyticsView />
+                    )}
 
-                {activeTab === 'settings' && (
-                  <SettingsView
-                    gloveMode={gloveMode}
-                    setGloveMode={handleSetGloveMode}
-                  />
+                    {activeTab === 'cybersecurity' && (
+                      <CybersecurityDashboardView
+                        cyberMetrics={cyberMetrics}
+                        gloveMode={gloveMode}
+                      />
+                    )}
+
+                    {activeTab === 'settings' && (
+                      <SettingsView
+                        gloveMode={gloveMode}
+                        setGloveMode={handleSetGloveMode}
+                      />
+                    )}
+                  </>
                 )}
               </main>
             </div>
@@ -439,114 +445,118 @@ export default function App() {
         ) : (
           /* Desktop Full-Width Container */
           <div className="max-w-7xl w-full mx-auto flex flex-col md:flex-row transition-all duration-500 ease-in-out">
-            <SidebarNavigation
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              gloveMode={gloveMode}
-              unacknowledgedCount={unacknowledgedCount}
-              criticalCount={criticalCount}
-              cyberCount={cyberCount}
-              isLoggedIn={isLoggedIn}
-            />
+            {isLoggedIn && (
+              <SidebarNavigation
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                gloveMode={gloveMode}
+                unacknowledgedCount={unacknowledgedCount}
+                criticalCount={criticalCount}
+                cyberCount={cyberCount}
+                isLoggedIn={isLoggedIn}
+              />
+            )}
 
             <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto min-w-0">
-              {activeTab === 'login' && (
+              {!isLoggedIn || activeTab === 'login' ? (
                 <LoginScreen
                   onLoginSuccess={handleLoginSuccess}
                   gloveMode={gloveMode}
                 />
-              )}
-
-              {activeTab === 'dashboard' && (
-                <DashboardView
-                  vesselStatus={vesselStatus}
-                  compartments={compartments}
-                  notifications={notifications}
-                  auditLogs={auditLogs}
-                  userRole={userRole}
-                  setUserRole={handleSetUserRole}
-                  onSelectCompartment={(id) => setSelectedCompartmentId(id)}
-                  onSelectNotification={(id) => setSelectedNotificationId(id)}
-                  onAcknowledgeNotification={handleAcknowledgeNotification}
-                  gloveMode={gloveMode}
-                  onSimulateFire={handleSimulateFire}
-                  onSimulateCyber={handleSimulateCyber}
-                  onResetSimulations={handleResetSimulations}
-                  setActiveTab={setActiveTab}
-                />
-              )}
-
-              {activeTab === 'notifications' && (
-                <NotificationsView
-                  notifications={notifications}
-                  onAcknowledge={handleAcknowledgeNotification}
-                  onAcknowledgeAll={handleAcknowledgeAll}
-                  onSelectNotification={(id) => setSelectedNotificationId(id)}
-                  gloveMode={gloveMode}
-                  setActiveTab={setActiveTab}
-                  onSendTestPush={() => triggerPushNotification(
-                    'TEST MARITIME PUSH ALERT',
-                    'SOLAS II-2 Water Mist Line 18.4 Bar Operational & Enclave Synced.'
+              ) : (
+                <>
+                  {activeTab === 'dashboard' && (
+                    <DashboardView
+                      vesselStatus={vesselStatus}
+                      compartments={compartments}
+                      notifications={notifications}
+                      auditLogs={auditLogs}
+                      userRole={userRole}
+                      setUserRole={handleSetUserRole}
+                      onSelectCompartment={(id) => setSelectedCompartmentId(id)}
+                      onSelectNotification={(id) => setSelectedNotificationId(id)}
+                      onAcknowledgeNotification={handleAcknowledgeNotification}
+                      gloveMode={gloveMode}
+                      onSimulateFire={handleSimulateFire}
+                      onSimulateCyber={handleSimulateCyber}
+                      onResetSimulations={handleResetSimulations}
+                      setActiveTab={setActiveTab}
+                    />
                   )}
-                />
-              )}
 
-              {activeTab === 'audit-logs' && (
-                <AuditLogsView
-                  auditLogs={auditLogs}
-                  userRole={userRole}
-                  gloveMode={gloveMode}
-                />
-              )}
+                  {activeTab === 'notifications' && (
+                    <NotificationsView
+                      notifications={notifications}
+                      onAcknowledge={handleAcknowledgeNotification}
+                      onAcknowledgeAll={handleAcknowledgeAll}
+                      onSelectNotification={(id) => setSelectedNotificationId(id)}
+                      gloveMode={gloveMode}
+                      setActiveTab={setActiveTab}
+                      onSendTestPush={() => triggerPushNotification(
+                        'TEST MARITIME PUSH ALERT',
+                        'SOLAS II-2 Water Mist Line 18.4 Bar Operational & Enclave Synced.'
+                      )}
+                    />
+                  )}
 
-              {activeTab === 'system-backup' && (
-                <SystemBackupView
-                  vesselStatus={vesselStatus}
-                  gloveMode={gloveMode}
-                />
-              )}
+                  {activeTab === 'audit-logs' && (
+                    <AuditLogsView
+                      auditLogs={auditLogs}
+                      userRole={userRole}
+                      gloveMode={gloveMode}
+                    />
+                  )}
 
-              {activeTab === 'incident-detail' && (
-                <IncidentDetailView
-                  notification={currentSelectedNotification}
-                  onAcknowledge={handleAcknowledgeNotification}
-                  gloveMode={gloveMode}
-                  onBack={() => setActiveTab('notifications')}
-                />
-              )}
+                  {activeTab === 'system-backup' && (
+                    <SystemBackupView
+                      vesselStatus={vesselStatus}
+                      gloveMode={gloveMode}
+                    />
+                  )}
 
-              {activeTab === 'vessel-map' && (
-                <VesselMapView
-                  compartments={compartments}
-                  selectedCompartmentId={selectedCompartmentId}
-                  onSelectCompartment={(id) => setSelectedCompartmentId(id)}
-                  gloveMode={gloveMode}
-                />
-              )}
+                  {activeTab === 'incident-detail' && (
+                    <IncidentDetailView
+                      notification={currentSelectedNotification}
+                      onAcknowledge={handleAcknowledgeNotification}
+                      gloveMode={gloveMode}
+                      onBack={() => setActiveTab('notifications')}
+                    />
+                  )}
 
-              {activeTab === 'stakeholder-matrix' && (
-                <StakeholderMatrixView
-                  matrix={matrix}
-                  gloveMode={gloveMode}
-                />
-              )}
+                  {activeTab === 'vessel-map' && (
+                    <VesselMapView
+                      compartments={compartments}
+                      selectedCompartmentId={selectedCompartmentId}
+                      onSelectCompartment={(id) => setSelectedCompartmentId(id)}
+                      gloveMode={gloveMode}
+                    />
+                  )}
 
-              {activeTab === 'analytics' && (
-                <AnalyticsView />
-              )}
+                  {activeTab === 'stakeholder-matrix' && (
+                    <StakeholderMatrixView
+                      matrix={matrix}
+                      gloveMode={gloveMode}
+                    />
+                  )}
 
-              {activeTab === 'cybersecurity' && (
-                <CybersecurityDashboardView
-                  cyberMetrics={cyberMetrics}
-                  gloveMode={gloveMode}
-                />
-              )}
+                  {activeTab === 'analytics' && (
+                    <AnalyticsView />
+                  )}
 
-              {activeTab === 'settings' && (
-                <SettingsView
-                  gloveMode={gloveMode}
-                  setGloveMode={handleSetGloveMode}
-                />
+                  {activeTab === 'cybersecurity' && (
+                    <CybersecurityDashboardView
+                      cyberMetrics={cyberMetrics}
+                      gloveMode={gloveMode}
+                    />
+                  )}
+
+                  {activeTab === 'settings' && (
+                    <SettingsView
+                      gloveMode={gloveMode}
+                      setGloveMode={handleSetGloveMode}
+                    />
+                  )}
+                </>
               )}
             </main>
           </div>
@@ -554,24 +564,26 @@ export default function App() {
       </div>
 
       {/* Industrial Footer */}
-      <footer className="bg-white border-t border-slate-200 text-slate-600 text-xs py-3.5 px-6 mt-auto shadow-sm">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 font-mono">
-          <div className="flex items-center gap-3">
-            <span className="font-bold text-slate-900">M/V POSEIDON VOYAGER</span>
-            <span>•</span>
-            <span>SCADA v4.2.1-PROD</span>
-            <span>•</span>
-            <span className="text-emerald-700 font-semibold">IEC 62443 SL3</span>
+      {isLoggedIn && (
+        <footer className="bg-white border-t border-slate-200 text-slate-600 text-xs py-3.5 px-6 mt-auto shadow-sm">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 font-mono">
+            <div className="flex items-center gap-3">
+              <span className="font-bold text-slate-900">M/V POSEIDON VOYAGER</span>
+              <span>•</span>
+              <span>SCADA v4.2.1-PROD</span>
+              <span>•</span>
+              <span className="text-emerald-700 font-semibold">IEC 62443 SL3</span>
+            </div>
+            <div className="flex items-center gap-4 text-[11px] text-slate-500">
+              <span>IACS E27 Compliant</span>
+              <span>•</span>
+              <span>Encrypted Dual PLC Channel</span>
+              <span>•</span>
+              <span>Water Mist High-Pressure System</span>
+            </div>
           </div>
-          <div className="flex items-center gap-4 text-[11px] text-slate-500">
-            <span>IACS E27 Compliant</span>
-            <span>•</span>
-            <span>Encrypted Dual PLC Channel</span>
-            <span>•</span>
-            <span>Water Mist High-Pressure System</span>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
     </div>
   );
 }

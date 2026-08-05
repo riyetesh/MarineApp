@@ -137,7 +137,11 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
     if (id === 'more') {
       setIsMobileMenuOpen(!isMobileMenuOpen);
     } else {
-      setActiveTab(id);
+      if (!isLoggedIn && id !== 'login') {
+        setActiveTab('login');
+      } else {
+        setActiveTab(id);
+      }
       setIsMobileMenuOpen(false); // Collapses mobile menu drawer automatically
     }
   };

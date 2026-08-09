@@ -12,7 +12,7 @@ export const AnalyticsView: React.FC = () => {
       <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-2">
         <div className="flex items-center gap-2">
           <BarChart3 className="w-6 h-6 text-slate-800" />
-          <h2 className="text-2xl font-black text-slate-900">System Reliability & Safety Analytics</h2>
+          <h2 className="text-2xl font-black text-slate-900">Visual SCADA Infographics & System Schematics</h2>
         </div>
         <p className="text-xs text-slate-500">
           Historical MTTR metrics, false alarm rates, water mist discharge consumption, and zone risk distribution.

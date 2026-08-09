@@ -2,7 +2,7 @@ import { Compartment, CyberMetric, NotificationItem, StakeholderMatrixRow, Vesse
 
 export const initialVesselStatus: VesselStatus = {
   name: "M/V Poseidon Voyager",
-  imoNumber: "IMO 9823412",
+  imoNumber: "9823412",
   type: "14,000 TEU Container Ship / LNG Fueled",
   flag: "Marshall Islands (MARIS)",
   overallHealth: 99.8,

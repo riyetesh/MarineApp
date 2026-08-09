@@ -179,18 +179,29 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
             </svg>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
             <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <span className="text-[10px] text-slate-500 font-sans block uppercase">HIGH PRESSURE PUMP LINE</span>
-              <span className="text-base font-bold text-slate-900">{waterMistPressure} BAR (1,840 kPa)</span>
+              <span className="text-[10px] text-slate-500 font-sans block uppercase font-semibold">MAX SYSTEM PRESSURE</span>
+              <span className="text-base font-black text-slate-900">100 BAR</span>
+              <span className="text-[10px] text-slate-500 block font-sans">Rated SOLAS II-2 Cap</span>
             </div>
+
             <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <span className="text-[10px] text-slate-500 font-sans block uppercase">RESERVOIR CAPACITY</span>
-              <span className="text-base font-bold text-blue-700">{tankLevelPct}% (42.5 M³)</span>
+              <span className="text-[10px] text-slate-500 font-sans block uppercase font-semibold">LAST TESTED PRESSURE</span>
+              <span className="text-base font-black text-emerald-700">100 BAR</span>
+              <span className="text-[10px] text-slate-600 block font-sans">Synced: 2026-08-09 08:00 UTC</span>
             </div>
+
             <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <span className="text-[10px] text-slate-500 font-sans block uppercase">STANDBY READY VALVES</span>
-              <span className="text-base font-bold text-emerald-700">5 SOLENOIDS SYNCED</span>
+              <span className="text-[10px] text-slate-500 font-sans block uppercase font-semibold">RECOMMENDED PRESSURE</span>
+              <span className="text-base font-black text-blue-700">85 – 100 BAR</span>
+              <span className="text-[10px] text-slate-500 block font-sans">Nominal High-Pressure Mist</span>
+            </div>
+
+            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
+              <span className="text-[10px] text-slate-500 font-sans block uppercase font-semibold">RESERVOIR & VALVES</span>
+              <span className="text-base font-black text-slate-900">{tankLevelPct}% FULL</span>
+              <span className="text-[10px] text-emerald-700 block font-sans">5 Solenoids Synced</span>
             </div>
           </div>
         </div>

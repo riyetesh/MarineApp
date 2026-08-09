@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { VesselStatus, Compartment, NotificationItem, AuditLogEntry } from '../types/industrial';
 import { 
   ShieldCheck, 
@@ -63,11 +63,17 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const unacknowledged = notifications.filter(n => !n.acknowledged);
 
   // Accordion state for collapsible mobile/desktop sections
-  const [isOverviewCollapsed, setIsOverviewCollapsed] = useState(false);
+  // Managerial view collapses overview details by default; Engineer view expands by default
+  const [isOverviewCollapsed, setIsOverviewCollapsed] = useState<boolean>(userRole === 'manager');
   const [isKpiCollapsed, setIsKpiCollapsed] = useState(false);
   const [isAlertsCollapsed, setIsAlertsCollapsed] = useState(false);
   const [isCompartmentsCollapsed, setIsCompartmentsCollapsed] = useState(false);
   const [isAuditCollapsed, setIsAuditCollapsed] = useState(false);
+
+  // Sync default collapse state when user switches roles
+  useEffect(() => {
+    setIsOverviewCollapsed(userRole === 'manager');
+  }, [userRole]);
 
   return (
     <div className="space-y-6 pb-20 md:pb-6 max-w-full overflow-hidden">
@@ -113,28 +119,74 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </div>
 
-      {/* 1. Vessel Summary Card (Collapsible) */}
-      <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden transition-all">
-        <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-          <div className="flex items-center gap-2">
-            <span className="bg-slate-900 text-white font-bold text-[11px] px-2.5 py-1 rounded-lg uppercase">
-              {vesselStatus.name}
-            </span>
-            <span className="bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold text-xs px-2.5 py-1 rounded-lg flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              {userRole === 'manager' 
-                ? `Safety Score: ${vesselStatus.overallHealth}%`
-                : `SCADA HEALTH: ${vesselStatus.overallHealth}%`}
-            </span>
+      {/* 1. Vessel Summary Card (Collapsible Header with Role Themes) */}
+      <div className={`bg-white border rounded-2xl shadow-sm overflow-hidden transition-all ${
+        userRole === 'engineer' ? 'border-cyan-200 ring-1 ring-cyan-500/20' : 'border-slate-200'
+      }`}>
+        <div 
+          onClick={() => setIsOverviewCollapsed(!isOverviewCollapsed)}
+          className={`p-5 sm:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 cursor-pointer hover:opacity-98 transition-all ${
+            userRole === 'manager' 
+              ? 'bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white border-b border-indigo-900/40' 
+              : 'bg-gradient-to-r from-slate-950 via-slate-900 to-cyan-950 text-white border-b border-cyan-800/50'
+          }`}
+        >
+          <div className="flex items-center gap-4">
+            <div className={`p-3.5 rounded-2xl border flex-shrink-0 ${
+              userRole === 'manager' 
+                ? 'bg-indigo-600/30 border-indigo-400/40 text-indigo-300' 
+                : 'bg-cyan-600/30 border-cyan-400/50 text-cyan-300'
+            }`}>
+              <Compass className="w-8 h-8" />
+            </div>
+            <div>
+              <div className={`text-xs sm:text-sm font-mono font-bold uppercase tracking-wider flex flex-wrap items-center gap-2 ${
+                userRole === 'manager' ? 'text-indigo-300' : 'text-cyan-300'
+              }`}>
+                <span>IMO 9823412</span>
+                <span>•</span>
+                <span>FLAG: MARSHALL ISLANDS</span>
+                <span>•</span>
+                <span className="bg-slate-800/90 border border-slate-700 px-2.5 py-0.5 rounded-md text-xs font-mono font-bold text-slate-100">
+                  {userRole === 'manager' ? 'EXECUTIVE VIEW' : 'ENGINEER SCADA'}
+                </span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white mt-1">
+                {vesselStatus.name}
+              </h2>
+              <p className="text-sm font-medium text-slate-300 mt-1 leading-relaxed">
+                14,000 TEU Container Ship / LNG Fueled • SOLAS II-2 Compliant Automated Mist & PLC Safety Engine
+              </p>
+            </div>
           </div>
 
-          <button
-            onClick={() => setIsOverviewCollapsed(!isOverviewCollapsed)}
-            className="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 rounded-lg transition-colors flex items-center gap-1 text-xs font-bold"
-          >
-            <span className="hidden sm:inline">{isOverviewCollapsed ? 'Expand' : 'Collapse'}</span>
-            {isOverviewCollapsed ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
-          </button>
+          <div className="flex items-center gap-4 justify-between md:justify-end">
+            {/* Prominent Large Safety Score Pill */}
+            <div className={`px-4 py-2.5 rounded-2xl flex items-center gap-3 shadow-lg border-2 ${
+              userRole === 'manager' 
+                ? 'bg-emerald-950/90 border-emerald-500/80 text-emerald-300' 
+                : 'bg-cyan-950/90 border-cyan-400/80 text-cyan-200'
+            }`}>
+              <div className="w-3.5 h-3.5 rounded-full bg-emerald-400 animate-ping" />
+              <div>
+                <div className="text-[10px] font-mono uppercase font-bold tracking-wider text-emerald-400">
+                  VESSEL SAFETY SCORE
+                </div>
+                <div className="text-2xl sm:text-3xl font-black text-white font-mono leading-none mt-0.5">
+                  {vesselStatus.overallHealth}%
+                </div>
+              </div>
+            </div>
+
+            <div className={`p-2.5 rounded-xl border flex items-center gap-1.5 text-xs font-bold font-mono transition-colors ${
+              userRole === 'manager'
+                ? 'text-slate-300 hover:text-white bg-slate-800/80 border-slate-700'
+                : 'text-cyan-300 hover:text-white bg-cyan-950/80 border-cyan-700'
+            }`}>
+              <span className="hidden lg:inline">{isOverviewCollapsed ? 'SHOW DETAILS' : 'COLLAPSE'}</span>
+              {isOverviewCollapsed ? <ChevronDown className="w-5 h-5 text-cyan-400" /> : <ChevronUp className="w-5 h-5 text-cyan-400" />}
+            </div>
+          </div>
         </div>
 
         <AnimatePresence>
@@ -144,82 +196,75 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="overflow-hidden"
+              className="overflow-hidden bg-slate-50/50"
             >
-              <div className="p-5 sm:p-6 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-                <div className="space-y-1.5">
-                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                    {vesselStatus.name} • {vesselStatus.type}
-                  </h2>
-                  <p className="text-xs sm:text-sm text-slate-500">
-                    {userRole === 'manager' 
-                      ? 'Flag: Marshall Islands • International Fire Safety Compliant (SOLAS II-2)'
-                      : `Flag: ${vesselStatus.flag} • Class: DNV-GL Maritime Safety • IMO: ${vesselStatus.imoNumber}`}
-                  </p>
+              <div className="p-5 sm:p-6 border-b border-slate-200 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4 text-xs text-slate-700">
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
+                  <div className="text-[10px] text-slate-500 uppercase font-bold">Vessel Location</div>
+                  <div className="font-black text-slate-900 mt-1 flex items-center gap-1.5 text-sm">
+                    <Compass className="w-4 h-4 text-blue-600" />
+                    {userRole === 'manager' ? 'North Atlantic Ocean' : `${vesselStatus.lat}`}
+                  </div>
                 </div>
 
-                {/* Voyage Details */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs text-slate-700">
-                  <div>
-                    <div className="text-[10px] text-slate-500 uppercase font-bold">Location</div>
-                    <div className="font-bold text-slate-900 mt-0.5 flex items-center gap-1">
-                      <Compass className="w-3.5 h-3.5 text-blue-600" />
-                      {userRole === 'manager' ? 'North Atlantic' : `${vesselStatus.lat}`}
-                    </div>
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
+                  <div className="text-[10px] text-slate-500 uppercase font-bold">Current Speed</div>
+                  <div className="font-black text-slate-900 mt-1 flex items-center gap-1.5 text-sm">
+                    <Navigation className="w-4 h-4 text-emerald-600" />
+                    {vesselStatus.speedKnots} knots
                   </div>
+                </div>
 
-                  <div>
-                    <div className="text-[10px] text-slate-500 uppercase font-bold">Speed</div>
-                    <div className="font-bold text-slate-900 mt-0.5 flex items-center gap-1">
-                      <Navigation className="w-3.5 h-3.5 text-emerald-600" />
-                      {vesselStatus.speedKnots} knots
-                    </div>
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
+                  <div className="text-[10px] text-slate-500 uppercase font-bold">Sea Condition</div>
+                  <div className="font-black text-slate-900 mt-1 text-sm">Moderate Sea (3.2m)</div>
+                </div>
+
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
+                  <div className="text-[10px] text-slate-500 uppercase font-bold">Fire Safety System</div>
+                  <div className={`font-black mt-1 text-sm ${
+                    vesselStatus.activeFireCount > 0 ? 'text-red-600' : 'text-emerald-700'
+                  }`}>
+                    {vesselStatus.activeFireCount > 0 ? 'Fire Warning' : '100% Armed & Ready'}
                   </div>
+                </div>
 
-                  <div>
-                    <div className="text-[10px] text-slate-500 uppercase font-bold">Sea Condition</div>
-                    <div className="font-bold text-slate-900 mt-0.5">Moderate Sea</div>
-                  </div>
-
-                  <div>
-                    <div className="text-[10px] text-slate-500 uppercase font-bold">Fire Safety</div>
-                    <div className={`font-bold mt-0.5 ${
-                      vesselStatus.activeFireCount > 0 ? 'text-red-600 font-black' : 'text-emerald-700'
-                    }`}>
-                      {vesselStatus.activeFireCount > 0 ? 'Fire Warning' : 'Safe & Ready'}
-                    </div>
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs col-span-2 sm:col-span-1">
+                  <div className="text-[10px] text-slate-500 uppercase font-bold">Maritime Certification</div>
+                  <div className="font-bold text-slate-900 mt-1 text-xs">
+                    SOLAS II-2 • IEC 62443 SL3
                   </div>
                 </div>
               </div>
 
               {/* Simulation Quick Bar */}
-              <div className="bg-slate-50/80 px-5 py-3 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-slate-100">
-                <div className="flex items-center gap-2 text-slate-600 font-medium">
+              <div className="bg-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-slate-200">
+                <div className="flex items-center gap-2 text-slate-700 font-medium">
                   <Activity className="w-4 h-4 text-blue-600" />
                   <span>
                     {userRole === 'manager' 
-                      ? 'Automatic Safety & Alarm Monitoring Active'
+                      ? 'Automatic Executive Safety & Alarm Monitoring Active'
                       : 'Live Maritime SCADA Telemetry Active (24/7 Monitored)'}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <button
                     onClick={onSimulateFire}
-                    className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-xs flex items-center gap-1 transition-colors shadow-sm"
+                    className="px-3.5 py-1.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-colors shadow-sm"
                   >
                     <Flame className="w-3.5 h-3.5" />
                     Simulate Fire Drill
                   </button>
                   <button
                     onClick={onSimulateCyber}
-                    className="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-lg text-xs flex items-center gap-1 transition-colors shadow-sm"
+                    className="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-colors shadow-sm"
                   >
                     <ShieldAlert className="w-3.5 h-3.5 text-indigo-300" />
                     Simulate Cyber Alert
                   </button>
                   <button
                     onClick={onResetSimulations}
-                    className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold rounded-lg text-xs transition-colors"
+                    className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 font-bold rounded-xl text-xs transition-colors flex items-center gap-1"
                   >
                     <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
                     Reset

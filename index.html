@@ -3,7 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Srijit Marine App</title>
+    <title>MARISAFE — Detect. Decide. Protect.</title>
+    <script>
+      if (typeof window !== 'undefined') {
+        if (typeof global === 'undefined') {
+          window.global = window;
+        }
+        try {
+          var origFetch = window.fetch ? window.fetch.bind(window) : null;
+          var _fetch = origFetch;
+          Object.defineProperty(window, 'fetch', {
+            get: function() { return _fetch; },
+            set: function(val) { _fetch = val; },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {
+          console.warn('Fetch property patch failed:', e);
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

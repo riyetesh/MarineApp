@@ -72,10 +72,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess, gloveM
                 M/V POSEIDON VOYAGER • MARIS
               </div>
               <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-0.5">
-                Marine Intelligent Fire Suppression
+                MARISAFE
               </h1>
-              <p className="text-xs text-slate-300 mt-1">
-                Industrial Water Mist & PLC Safety Notification Platform
+              <p className="text-xs text-blue-300 font-semibold mt-0.5">
+                Detect. Decide. Protect.
               </p>
             </div>
           </div>

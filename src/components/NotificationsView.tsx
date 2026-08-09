@@ -242,7 +242,7 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
       </div>
 
       {/* Notifications Timeline Cards */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         {filteredNotifications.length === 0 ? (
           <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-sm">
             <ShieldCheck className="w-12 h-12 text-emerald-600 mx-auto mb-3" />
@@ -258,113 +258,153 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
             return (
               <div
                 key={notif.id}
-                className={`bg-white border rounded-2xl p-5 sm:p-6 shadow-sm transition-all ${
+                className={`bg-white border-2 rounded-2xl overflow-hidden shadow-sm transition-all ${
                   !notif.acknowledged && isCriticalDanger
-                    ? 'border-red-500 bg-red-50/30'
+                    ? 'border-red-500 ring-2 ring-red-500/20'
                     : notif.acknowledged
-                    ? 'border-slate-200 opacity-90'
+                    ? 'border-slate-200 bg-slate-50/40'
                     : 'border-slate-300'
                 }`}
               >
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                  {/* Left Column: Metadata & Details */}
-                  <div className="space-y-2 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      {getSeverityBadge(notif.severity)}
-
-                      <span className="bg-slate-100 text-slate-800 border border-slate-200 text-xs font-mono px-2.5 py-1 rounded-md">
-                        {notif.incidentNo}
-                      </span>
-
-                      <span className="bg-slate-900 text-white text-xs font-bold px-2.5 py-1 rounded-md">
-                        ZONE {notif.fireZone} • {notif.compartmentName}
-                      </span>
-
-                      <span className="text-xs text-slate-500 font-mono flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
-                        {notif.timestamp}
-                      </span>
+                {/* Graphical Top Status Header Bar */}
+                <div className={`px-5 py-3 border-b flex flex-wrap items-center justify-between gap-3 text-xs font-mono font-bold ${
+                  notif.severity === 'critical'
+                    ? 'bg-red-950 text-red-200 border-red-800'
+                    : notif.severity === 'cyber'
+                    ? 'bg-slate-950 text-indigo-300 border-slate-800'
+                    : notif.severity === 'warning'
+                    ? 'bg-amber-950 text-amber-200 border-amber-800'
+                    : 'bg-slate-900 text-slate-200 border-slate-800'
+                }`}>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <div className="flex items-center gap-1.5">
+                      {notif.severity === 'critical' && <Flame className="w-4 h-4 text-red-400 animate-pulse" />}
+                      {notif.severity === 'cyber' && <ShieldAlert className="w-4 h-4 text-indigo-400" />}
+                      {notif.severity === 'warning' && <AlertTriangle className="w-4 h-4 text-amber-400" />}
+                      {notif.severity === 'info' && <Info className="w-4 h-4 text-blue-400" />}
+                      {notif.severity === 'resolved' && <CheckCircle2 className="w-4 h-4 text-emerald-400" />}
+                      <span className="uppercase tracking-wide">{notif.severity} INCIDENT</span>
                     </div>
 
-                    <h3 className="text-lg sm:text-xl font-extrabold text-slate-900">
-                      {notif.title}
-                    </h3>
-
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                      {notif.shortDescription}
-                    </p>
-
-                    {/* Affected Equipment Tags */}
-                    <div className="flex flex-wrap items-center gap-2 pt-1">
-                      <span className="text-[11px] font-bold text-slate-500 uppercase">Equipment:</span>
-                      {notif.affectedEquipment.map((eq, idx) => (
-                        <span key={idx} className="bg-slate-100 border border-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded font-mono">
-                          {eq}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Assigned Officer */}
-                    <div className="flex flex-wrap items-center gap-4 text-xs text-slate-600 pt-2 font-mono">
-                      <div className="flex items-center gap-1.5">
-                        <User className="w-4 h-4 text-blue-600" />
-                        <span>Officer: <strong className="text-slate-900">{notif.responsibleOfficer}</strong></span>
-                      </div>
-                      <div>
-                        <span>Escalation: </span>
-                        <span className={`font-bold ${
-                          notif.escalationStatus !== 'Normal' ? 'text-red-600' : 'text-emerald-700'
-                        }`}>
-                          {notif.escalationStatus}
-                        </span>
-                      </div>
-                    </div>
+                    <span>•</span>
+                    <span className="bg-white/10 px-2 py-0.5 rounded text-[11px]">{notif.incidentNo}</span>
+                    <span>•</span>
+                    <span>ZONE {notif.fireZone}: {notif.compartmentName}</span>
                   </div>
 
-                  {/* Right Column: AI Risk Score & Actions */}
-                  <div className="flex lg:flex-col items-center lg:items-end justify-between lg:justify-center gap-3 border-t lg:border-t-0 lg:border-l border-slate-100 pt-3 lg:pt-0 lg:pl-6">
-                    <div className="text-right">
-                      <div className="text-[10px] font-bold uppercase text-slate-500">AI Risk Rating</div>
-                      <div className="text-2xl font-black text-slate-900 flex items-center gap-1 justify-end">
-                        <Zap className="w-5 h-5 text-amber-500" />
-                        {notif.riskScore} <span className="text-xs text-slate-400 font-normal">/ 100</span>
+                  <div className="flex items-center gap-2 text-[11px] text-slate-300">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>{notif.timestamp}</span>
+                  </div>
+                </div>
+
+                {/* Main Graphic Content Area */}
+                <div className="p-5 sm:p-6 space-y-4">
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                    {/* Left: Main Title & Structured Narrative */}
+                    <div className="space-y-3 flex-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                          {notif.title}
+                        </h3>
                       </div>
-                      <div className="text-[10px] font-mono text-emerald-700 font-medium">
-                        {notif.aiConfidence}% Model Confidence
+
+                      <p className="text-xs sm:text-sm text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        {notif.shortDescription}
+                      </p>
+
+                      {/* Equipment Grid & Officer Cards */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <div className="bg-white p-3 rounded-xl border border-slate-200">
+                          <span className="text-[10px] font-bold text-slate-500 uppercase block font-mono">
+                            AFFECTED EQUIPMENT NODES
+                          </span>
+                          <div className="flex flex-wrap gap-1.5 mt-1.5">
+                            {notif.affectedEquipment.map((eq, idx) => (
+                              <span key={idx} className="bg-slate-100 border border-slate-300 text-slate-800 text-xs px-2 py-1 rounded font-mono font-semibold">
+                                {eq}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between font-mono text-xs">
+                          <div>
+                            <span className="text-[10px] font-bold text-slate-500 uppercase block">DUTY OFFICER</span>
+                            <span className="font-bold text-slate-900 mt-0.5 block">{notif.responsibleOfficer}</span>
+                          </div>
+                          <div className="text-right">
+                            <span className="text-[10px] font-bold text-slate-500 uppercase block">ESCALATION</span>
+                            <span className={`font-black mt-0.5 block ${
+                              notif.escalationStatus !== 'Normal' ? 'text-red-600' : 'text-emerald-700'
+                            }`}>
+                              {notif.escalationStatus}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          onSelectNotification(notif.id);
-                          setActiveTab('incident-detail');
-                        }}
-                        className={`bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs flex items-center gap-1 transition-colors shadow-sm ${
-                          gloveMode ? 'px-4 py-3 text-sm' : 'px-3 py-2 text-xs'
-                        }`}
-                      >
-                        <span>Decision SOP</span>
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
+                    {/* Right Block: AI Risk Infographic & Actions */}
+                    <div className="lg:w-72 bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between gap-4">
+                      <div>
+                        <div className="text-[10px] font-bold font-mono text-slate-500 uppercase tracking-wider">
+                          AI INCIDENT RISK ASSESSMENT
+                        </div>
+                        <div className="flex items-center justify-between mt-2">
+                          <div className="text-3xl font-black text-slate-900 flex items-center gap-1 font-mono">
+                            <Zap className="w-6 h-6 text-amber-500" />
+                            {notif.riskScore}
+                            <span className="text-xs text-slate-400 font-normal">/ 100</span>
+                          </div>
+                          <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded">
+                            {notif.aiConfidence}% CONF.
+                          </span>
+                        </div>
 
-                      {!notif.acknowledged ? (
+                        {/* Visual SVG Progress Bar for Risk */}
+                        <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden mt-2">
+                          <div 
+                            className={`h-full rounded-full ${
+                              notif.riskScore > 75 ? 'bg-red-600' : notif.riskScore > 40 ? 'bg-amber-500' : 'bg-blue-600'
+                            }`} 
+                            style={{ width: `${notif.riskScore}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Action Triggers */}
+                      <div className="flex flex-col gap-2 pt-2 border-t border-slate-200">
                         <button
-                          onClick={() => onAcknowledge(notif.id)}
-                          className={`bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors flex items-center gap-1 ${
-                            gloveMode ? 'px-4 py-3 text-sm' : 'px-3 py-2 text-xs'
+                          onClick={() => {
+                            onSelectNotification(notif.id);
+                            setActiveTab('incident-detail');
+                          }}
+                          className={`w-full bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-colors shadow-sm ${
+                            gloveMode ? 'py-3 text-sm' : 'py-2.5 text-xs'
                           }`}
                         >
-                          <CheckCircle2 className="w-4 h-4" />
-                          <span>Acknowledge</span>
+                          <span>VIEW DECISION SOP</span>
+                          <ChevronRight className="w-4 h-4" />
                         </button>
-                      ) : (
-                        <span className="bg-slate-100 text-emerald-800 border border-slate-200 text-xs px-3 py-1.5 rounded-lg font-bold flex items-center gap-1">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                          Acked
-                        </span>
-                      )}
+
+                        {!notif.acknowledged ? (
+                          <button
+                            onClick={() => onAcknowledge(notif.id)}
+                            className={`w-full bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 ${
+                              gloveMode ? 'py-3 text-sm' : 'py-2.5 text-xs'
+                            }`}
+                          >
+                            <CheckCircle2 className="w-4 h-4" />
+                            <span>ACKNOWLEDGE ALARM</span>
+                          </button>
+                        ) : (
+                          <div className="w-full bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs py-2 rounded-xl font-bold flex items-center justify-center gap-1 font-mono">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                            ACKNOWLEDGED
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

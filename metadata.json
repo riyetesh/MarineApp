@@ -1,5 +1,5 @@
 {
-  "name": "Marine Intelligent Fire Suppression System",
+  "name": "MARISAFE — Detect. Decide. Protect.",
   "description": "Industrial safety & fire suppression monitoring platform for commercial vessels compliant with IEC 62443 and IACS E27 standards.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

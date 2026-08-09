@@ -88,19 +88,22 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Left: Vessel Info */}
         <div className="flex items-center gap-3">
           <div className="bg-slate-800 p-2 rounded-xl border border-slate-700 flex items-center justify-center">
-            <Anchor className="w-5 h-5 text-slate-100" />
+            <Anchor className="w-5 h-5 text-blue-400" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="font-black text-base sm:text-lg tracking-tight text-white">
-                M/V POSEIDON VOYAGER
+                MARISAFE
+              </span>
+              <span className="text-[10px] bg-blue-950/80 border border-blue-600/50 text-blue-300 font-semibold px-2 py-0.5 rounded">
+                Detect. Decide. Protect.
               </span>
               <span className="hidden md:inline-block text-[10px] bg-slate-800 border border-slate-700 px-2 py-0.5 rounded text-slate-300 font-mono">
-                IMO {vesselStatus.imoNumber}
+                IMO 9823412
               </span>
             </div>
             <div className="text-[11px] text-slate-400 flex items-center gap-2 font-mono">
-              <span>Marine Safety & Fire Control</span>
+              <span>M/V POSEIDON VOYAGER</span>
               <span className="text-slate-600">•</span>
               <span className="hidden sm:inline">{currentTime}</span>
             </div>
@@ -160,20 +163,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               Reset
             </button>
           </div>
-
-          {/* Device View Frame Switcher */}
-          <button
-            onClick={() => setIsMobileFrame(prev => !prev)}
-            className={`hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
-              isMobileFrame
-                ? 'bg-indigo-600 text-white border-indigo-500'
-                : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'
-            }`}
-            title="Toggle Mobile Handheld Deck Device Frame"
-          >
-            {isMobileFrame ? <Monitor className="w-3.5 h-3.5" /> : <Smartphone className="w-3.5 h-3.5" />}
-            <span>{isMobileFrame ? 'Desktop Mode' : 'Mobile Frame'}</span>
-          </button>
 
           {/* Glove Mode Toggle */}
           <button

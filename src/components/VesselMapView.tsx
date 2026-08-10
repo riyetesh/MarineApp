@@ -123,7 +123,7 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-1 font-mono">
-                  M/V POSEIDON VOYAGER • Bridge Deck (+6.40m), Main Deck (+3.20m), Tank Top Deck (0.00m) & Side Elevation
+                  M/V POSEIDON VOYAGER • 01 Tank Top (0.00m), 02 Main Deck (+3.20m), 03 Bridge Deck (+6.40m) & Elevation Profile
                 </p>
               </div>
             </div>
@@ -135,10 +135,10 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
             <div className="bg-slate-950/80 p-1 rounded-xl border border-slate-800 flex items-center gap-1">
               {[
                 { id: 'all', label: 'All Decks (Stack)' },
-                { id: 'bridge', label: 'Bridge Deck' },
-                { id: 'main', label: 'Main Deck' },
-                { id: 'tank', label: 'Tank Top Deck' },
-                { id: 'profile', label: '3D Side Profile' },
+                { id: 'tank', label: '01 Tank Top' },
+                { id: 'main', label: '02 Main Deck' },
+                { id: 'bridge', label: '03 Bridge Deck' },
+                { id: 'profile', label: 'Elevation Profile' },
               ].map((view) => (
                 <button
                   key={view.id}
@@ -212,7 +212,7 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
           {/* SVG 3D Canvas Box */}
           <div className="relative z-10 w-full overflow-x-auto p-2 sm:p-4 flex flex-col items-center justify-center min-h-[580px]">
             <svg
-              viewBox="0 0 1000 1350"
+              viewBox="0 0 1000 1000"
               className={`w-full min-w-[700px] max-w-[980px] mx-auto select-none h-auto font-mono transition-all duration-700 ${
                 is3DMode ? 'drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)]' : ''
               }`}
@@ -257,18 +257,109 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
               </defs>
 
               {/* ========================================================= */}
-              {/* SECTION 1: BRIDGE DECK (3D ISOMETRIC / FLAT)              */}
+              {/* SECTION 1: ELEVATION PROFILE (NO NUMBER) ABOVE BRIDGE DECK */}
+              {/* ========================================================= */}
+              {(selectedView === 'all' || selectedView === 'profile') && (
+                <g 
+                  id="side-profile-3d" 
+                  transform={is3DMode ? (selectedView === 'profile' ? "translate(0, 30)" : "translate(0, 20)") : "translate(0, 20)"}
+                  className="transition-transform duration-500"
+                >
+                  {/* Title Box */}
+                  <g transform="translate(30, 0)">
+                    <rect x="0" y="0" width="280" height="32" rx="8" fill="#1e293b" stroke="#38bdf8" strokeWidth="2" />
+                    <text x="14" y="21" fill="#FFFFFF" fontSize="13" fontWeight="900">ELEVATION PROFILE</text>
+                  </g>
+
+                  {/* Waterline Glow Line */}
+                  <line x1="40" y1="210" x2="940" y2="210" stroke="#38bdf8" strokeWidth="2.5" strokeDasharray="8,4" />
+                  <text x="50" y="228" fill="#38bdf8" fontSize="11" fontWeight="bold">WATERLINE (1.60m DRAFT)</text>
+
+                  {/* 3D Hull Geometry Path */}
+                  <path
+                    d="M 100 130 
+                       Q 80 130 60 160 
+                       L 120 230 
+                       L 820 230 
+                       Q 920 230 940 130 
+                       L 880 130 
+                       L 850 100 
+                       L 620 100 
+                       L 550 50 
+                       L 320 50 
+                       L 280 100 
+                       L 200 100 
+                       L 150 130 
+                       Z"
+                    fill="url(#hull3dGradient)"
+                    stroke="#38bdf8"
+                    strokeWidth="3.5"
+                    filter={is3DMode ? "url(#wallShadow)" : undefined}
+                  />
+
+                  {/* Radar Mast */}
+                  <path d="M 420 50 L 420 15 M 400 22 L 440 22 M 410 32 L 430 32" stroke="#38bdf8" strokeWidth="2.5" />
+                  <circle cx="420" cy="12" r="4" fill="#38bdf8" className="animate-ping" filter="url(#glowPulse)" />
+
+                  {/* Deck Lines */}
+                  <line x1="150" y1="130" x2="880" y2="130" stroke="#475569" strokeWidth="2" strokeDasharray="4,2" />
+                  <text x="890" y="134" fill="#cbd5e1" fontSize="9" fontWeight="bold">MAIN DECK (+3.20m)</text>
+
+                  <line x1="280" y1="100" x2="850" y2="100" stroke="#475569" strokeWidth="2" strokeDasharray="4,2" />
+                  <text x="860" y="104" fill="#cbd5e1" fontSize="9" fontWeight="bold">BRIDGE DECK (+6.40m)</text>
+
+                  {/* Windows & Glossy Visual Highlights */}
+                  <polygon points="340,60 520,60 510,90 350,90" fill="#0284c7" stroke="#38bdf8" strokeWidth="1" />
+                  <rect x="220" y="110" width="180" height="14" fill="#0284c7" rx="2" />
+                  <rect x="420" y="110" width="200" height="14" fill="#0284c7" rx="2" />
+                  <rect x="640" y="110" width="140" height="14" fill="#0284c7" rx="2" />
+
+                  {/* Porthole LED Indicators */}
+                  <circle cx="200" cy="170" r="5" fill="#38bdf8" />
+                  <circle cx="240" cy="170" r="5" fill="#38bdf8" />
+                  <circle cx="280" cy="170" r="5" fill="#38bdf8" />
+                  <circle cx="680" cy="170" r="5" fill="#38bdf8" />
+                  <circle cx="720" cy="170" r="5" fill="#38bdf8" />
+
+                  {/* Engine Room Lower Profile Cutout & Pulsing Glow */}
+                  <g 
+                    onClick={() => onSelectCompartment('eng-room-lower')}
+                    className="cursor-pointer"
+                  >
+                    {isErrorComp(getComp('eng-room-lower')) ? (
+                      <rect x="300" y="140" width="260" height="70" fill="url(#fire3dGradient)" stroke="#ef4444" strokeWidth="3" rx="6" />
+                    ) : (
+                      <rect x="300" y="140" width="260" height="70" fill="#1e293b" stroke="#38bdf8" strokeWidth="2" rx="6" />
+                    )}
+                    <text x="315" y="172" fill="#FFFFFF" fontSize="12" fontWeight="900">
+                      ENGINE ROOM / MACHINERY (ER-L01)
+                    </text>
+
+                    {isErrorComp(getComp('eng-room-lower')) && (
+                      <g transform="translate(315, 180)">
+                        <rect x="0" y="0" width="170" height="20" fill="#dc2626" rx="4" filter="url(#glowPulse)" />
+                        <text x="8" y="14" fill="#FFFFFF" fontSize="10" fontWeight="black" className="animate-pulse">
+                          🔥 CRITICAL FIRE WARNING
+                        </text>
+                      </g>
+                    )}
+                  </g>
+                </g>
+              )}
+
+              {/* ========================================================= */}
+              {/* SECTION 2: 03 BRIDGE DECK (+6.40m)                         */}
               {/* ========================================================= */}
               {(selectedView === 'all' || selectedView === 'bridge') && (
                 <g 
                   id="bridge-deck-3d" 
-                  transform={is3DMode ? "translate(0, 30)" : "translate(0, 20)"}
+                  transform={is3DMode ? (selectedView === 'bridge' ? "translate(0, 30)" : "translate(0, 270)") : "translate(0, 260)"}
                   className="transition-transform duration-500"
                 >
                   {/* Deck Title Tag */}
                   <g transform="translate(30, 0)">
                     <rect x="0" y="0" width="220" height="32" rx="8" fill="#1e293b" stroke="#3b82f6" strokeWidth="2" />
-                    <text x="14" y="21" fill="#FFFFFF" fontSize="13" fontWeight="900">1. BRIDGE DECK (+6.40m)</text>
+                    <text x="14" y="21" fill="#FFFFFF" fontSize="13" fontWeight="900">03 BRIDGE DECK (+6.40m)</text>
                   </g>
 
                   {/* 3D Deck Plate Extrusion Depth Shadow */}
@@ -399,26 +490,26 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
               {/* Connecting 3D Pillar Guides in 3D Stack View */}
               {selectedView === 'all' && is3DMode && (
                 <g id="deck-3d-connecting-posts" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="4,4" opacity="0.4">
-                  <line x1="120" y1="130" x2="100" y2="280" />
-                  <line x1="700" y1="90" x2="850" y2="240" />
-                  <line x1="100" y1="280" x2="110" y2="440" />
-                  <line x1="850" y1="240" x2="780" y2="440" />
+                  <line x1="100" y1="620" x2="100" y2="460" />
+                  <line x1="850" y1="580" x2="850" y2="420" />
+                  <line x1="100" y1="460" x2="120" y2="320" />
+                  <line x1="850" y1="420" x2="700" y2="280" />
                 </g>
               )}
 
               {/* ========================================================= */}
-              {/* SECTION 2: MAIN DECK (3D ISOMETRIC / FLAT)               */}
+              {/* SECTION 3: 02 MAIN DECK (+3.20m)                         */}
               {/* ========================================================= */}
               {(selectedView === 'all' || selectedView === 'main') && (
                 <g 
                   id="main-deck-3d" 
-                  transform={is3DMode ? (selectedView === 'main' ? "translate(0, 30)" : "translate(0, 200)") : "translate(0, 180)"}
+                  transform={is3DMode ? (selectedView === 'main' ? "translate(0, 30)" : "translate(0, 440)") : "translate(0, 420)"}
                   className="transition-transform duration-500"
                 >
                   {/* Deck Title Tag */}
                   <g transform="translate(30, 0)">
                     <rect x="0" y="0" width="200" height="32" rx="8" fill="#1e293b" stroke="#38bdf8" strokeWidth="2" />
-                    <text x="14" y="21" fill="#FFFFFF" fontSize="13" fontWeight="900">2. MAIN DECK (+3.20m)</text>
+                    <text x="14" y="21" fill="#FFFFFF" fontSize="13" fontWeight="900">02 MAIN DECK (+3.20m)</text>
                   </g>
 
                   {/* 3D Deck Extrusion Shadow */}
@@ -535,18 +626,18 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
               )}
 
               {/* ========================================================= */}
-              {/* SECTION 3: TANK TOP DECK (3D ISOMETRIC / FLAT)             */}
+              {/* SECTION 4: 01 TANK TOP DECK (0.00m)                        */}
               {/* ========================================================= */}
               {(selectedView === 'all' || selectedView === 'tank') && (
                 <g 
                   id="tank-top-deck-3d" 
-                  transform={is3DMode ? (selectedView === 'tank' ? "translate(0, 30)" : "translate(0, 380)") : "translate(0, 340)"}
+                  transform={is3DMode ? (selectedView === 'tank' ? "translate(0, 30)" : "translate(0, 610)") : "translate(0, 580)"}
                   className="transition-transform duration-500"
                 >
                   {/* Deck Title Tag */}
                   <g transform="translate(30, 0)">
                     <rect x="0" y="0" width="220" height="32" rx="8" fill="#1e293b" stroke="#10b981" strokeWidth="2" />
-                    <text x="14" y="21" fill="#FFFFFF" fontSize="13" fontWeight="900">3. TANK TOP DECK (0.00m)</text>
+                    <text x="14" y="21" fill="#FFFFFF" fontSize="13" fontWeight="900">01 TANK TOP DECK (0.00m)</text>
                   </g>
 
                   {/* 3D Deck Shadow */}
@@ -698,101 +789,9 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
               )}
 
               {/* ========================================================= */}
-              {/* SECTION 4: 3D YACHT SIDE PROFILE HULL ELEVATION           */}
-              {/* ========================================================= */}
-              {(selectedView === 'all' || selectedView === 'profile') && (
-                <g 
-                  id="side-profile-3d" 
-                  transform={is3DMode ? (selectedView === 'profile' ? "translate(0, 30)" : "translate(0, 560)") : "translate(0, 510)"}
-                  className="transition-transform duration-500"
-                >
-                  {/* Title Box */}
-                  <g transform="translate(30, 0)">
-                    <rect x="0" y="0" width="280" height="32" rx="8" fill="#1e293b" stroke="#38bdf8" strokeWidth="2" />
-                    <text x="14" y="21" fill="#FFFFFF" fontSize="13" fontWeight="900">4. 3D YACHT SIDE ELEVATION PROFILE</text>
-                  </g>
-
-                  {/* Waterline Glow Line */}
-                  <line x1="40" y1="210" x2="940" y2="210" stroke="#38bdf8" strokeWidth="2.5" strokeDasharray="8,4" />
-                  <text x="50" y="228" fill="#38bdf8" fontSize="11" fontWeight="bold">WATERLINE (1.60m DRAFT)</text>
-
-                  {/* 3D Hull Geometry Path */}
-                  <path
-                    d="M 100 130 
-                       Q 80 130 60 160 
-                       L 120 230 
-                       L 820 230 
-                       Q 920 230 940 130 
-                       L 880 130 
-                       L 850 100 
-                       L 620 100 
-                       L 550 50 
-                       L 320 50 
-                       L 280 100 
-                       L 200 100 
-                       L 150 130 
-                       Z"
-                    fill="url(#hull3dGradient)"
-                    stroke="#38bdf8"
-                    strokeWidth="3.5"
-                    filter={is3DMode ? "url(#wallShadow)" : undefined}
-                  />
-
-                  {/* Radar Mast */}
-                  <path d="M 420 50 L 420 15 M 400 22 L 440 22 M 410 32 L 430 32" stroke="#38bdf8" strokeWidth="2.5" />
-                  <circle cx="420" cy="12" r="4" fill="#38bdf8" className="animate-ping" filter="url(#glowPulse)" />
-
-                  {/* Deck Lines */}
-                  <line x1="150" y1="130" x2="880" y2="130" stroke="#475569" strokeWidth="2" strokeDasharray="4,2" />
-                  <text x="890" y="134" fill="#cbd5e1" fontSize="9" fontWeight="bold">MAIN DECK (+3.20m)</text>
-
-                  <line x1="280" y1="100" x2="850" y2="100" stroke="#475569" strokeWidth="2" strokeDasharray="4,2" />
-                  <text x="860" y="104" fill="#cbd5e1" fontSize="9" fontWeight="bold">BRIDGE DECK (+6.40m)</text>
-
-                  {/* Windows & Glossy Visual Highlights */}
-                  <polygon points="340,60 520,60 510,90 350,90" fill="#0284c7" stroke="#38bdf8" strokeWidth="1" />
-                  <rect x="220" y="110" width="180" height="14" fill="#0284c7" rx="2" />
-                  <rect x="420" y="110" width="200" height="14" fill="#0284c7" rx="2" />
-                  <rect x="640" y="110" width="140" height="14" fill="#0284c7" rx="2" />
-
-                  {/* Porthole LED Indicators */}
-                  <circle cx="200" cy="170" r="5" fill="#38bdf8" />
-                  <circle cx="240" cy="170" r="5" fill="#38bdf8" />
-                  <circle cx="280" cy="170" r="5" fill="#38bdf8" />
-                  <circle cx="680" cy="170" r="5" fill="#38bdf8" />
-                  <circle cx="720" cy="170" r="5" fill="#38bdf8" />
-
-                  {/* Engine Room Lower Profile Cutout & Pulsing Glow */}
-                  <g 
-                    onClick={() => onSelectCompartment('eng-room-lower')}
-                    className="cursor-pointer"
-                  >
-                    {isErrorComp(getComp('eng-room-lower')) ? (
-                      <rect x="300" y="140" width="260" height="70" fill="url(#fire3dGradient)" stroke="#ef4444" strokeWidth="3" rx="6" />
-                    ) : (
-                      <rect x="300" y="140" width="260" height="70" fill="#1e293b" stroke="#38bdf8" strokeWidth="2" rx="6" />
-                    )}
-                    <text x="315" y="172" fill="#FFFFFF" fontSize="12" fontWeight="900">
-                      ENGINE ROOM / MACHINERY (ER-L01)
-                    </text>
-
-                    {isErrorComp(getComp('eng-room-lower')) && (
-                      <g transform="translate(315, 180)">
-                        <rect x="0" y="0" width="170" height="20" fill="#dc2626" rx="4" filter="url(#glowPulse)" />
-                        <text x="8" y="14" fill="#FFFFFF" fontSize="10" fontWeight="black" className="animate-pulse">
-                          🔥 CRITICAL FIRE WARNING
-                        </text>
-                      </g>
-                    )}
-                  </g>
-                </g>
-              )}
-
-              {/* ========================================================= */}
               {/* SECTION 5: 3D PARTICULARS & SYMBOL LEGEND                  */}
               {/* ========================================================= */}
-              {(selectedView === 'all' || selectedView === 'profile') && (
-                <g id="legend-3d-section" transform="translate(20, 810)">
+              <g id="legend-3d-section" transform={selectedView === 'all' ? "translate(20, 780)" : "translate(20, 220)"}>
                   {/* Particulars Card */}
                   <rect x="0" y="0" width="460" height="175" rx="10" fill="#0f172a" stroke="#334155" strokeWidth="2" />
                   <rect x="0" y="0" width="460" height="28" rx="8" fill="#1e293b" />
@@ -856,7 +855,6 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                     <text x="200" y="128" fill="#38bdf8" fontWeight="bold">100 BAR OPERATIONAL</text>
                   </g>
                 </g>
-              )}
             </svg>
           </div>
 

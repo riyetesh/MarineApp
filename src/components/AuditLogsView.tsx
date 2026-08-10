@@ -44,7 +44,7 @@ export const AuditLogsView: React.FC<AuditLogsViewProps> = ({
       case 'auth':
         return <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold px-2 py-0.5 rounded text-[10px]">Auth</span>;
       case 'simulation':
-        return <span className="bg-purple-100 text-purple-800 border border-purple-300 font-bold px-2 py-0.5 rounded text-[10px]">Drill Drill</span>;
+        return <span className="bg-purple-100 text-purple-800 border border-purple-300 font-bold px-2 py-0.5 rounded text-[10px]">Safety Drill</span>;
       case 'incident':
         return <span className="bg-red-100 text-red-800 border border-red-300 font-bold px-2 py-0.5 rounded text-[10px]">Incident</span>;
       case 'role_switch':

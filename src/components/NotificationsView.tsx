@@ -53,7 +53,7 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
       const perm = await Notification.requestPermission();
       setPushStatus(perm);
       if (perm === 'granted') {
-        new Notification('M/V POSEIDON VOYAGER Safety System', {
+        new Notification('M/Y SIMO Safety System', {
           body: 'Push Alerts Enabled! You will receive instant SOLAS fire & cyber emergency notifications.',
           icon: '/favicon.ico'
         });

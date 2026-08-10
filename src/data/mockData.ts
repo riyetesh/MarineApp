@@ -1,7 +1,7 @@
 import { Compartment, CyberMetric, NotificationItem, StakeholderMatrixRow, VesselStatus, AuditLogEntry } from '../types/industrial';
 
 export const initialVesselStatus: VesselStatus = {
-  name: "M/V Poseidon Voyager",
+  name: "M/Y SIMO",
   imoNumber: "9823412",
   type: "14,000 TEU Container Ship / LNG Fueled",
   flag: "Marshall Islands (MARIS)",

@@ -418,7 +418,7 @@ export default function App() {
         <footer className="bg-white border-t border-slate-200 text-slate-600 text-xs py-3.5 px-6 mt-auto shadow-sm">
           <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 font-mono">
             <div className="flex items-center gap-3">
-              <span className="font-bold text-slate-900">M/V POSEIDON VOYAGER</span>
+              <span className="font-bold text-slate-900">M/Y SIMO</span>
               <span>•</span>
               <span>SCADA v4.2.1-PROD</span>
               <span>•</span>

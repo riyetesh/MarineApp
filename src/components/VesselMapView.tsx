@@ -123,7 +123,7 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-1 font-mono">
-                  M/V POSEIDON VOYAGER • 01 Tank Top (0.00m), 02 Main Deck (+3.20m), 03 Bridge Deck (+6.40m) & Elevation Profile
+                  M/Y SIMO • 01 Tank Top (0.00m), 02 Main Deck (+3.20m), 03 Bridge Deck (+6.40m) & Elevation Profile
                 </p>
               </div>
             </div>

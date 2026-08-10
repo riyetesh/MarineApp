@@ -20,7 +20,7 @@ interface LoginScreenProps {
 }
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess, gloveMode }) => {
-  const [username, setUsername] = useState('chief.vance@poseidon.maris');
+  const [username, setUsername] = useState('chief.vance@simo.maris');
   const [password, setPassword] = useState('••••••••••••');
   const [mfaCode, setMfaCode] = useState('');
   const [showMfa, setShowMfa] = useState(false);
@@ -69,7 +69,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess, gloveM
             </div>
             <div>
               <div className="text-xs font-mono text-blue-300 font-bold uppercase tracking-widest">
-                M/V POSEIDON VOYAGER • MARIS
+                M/Y SIMO • MARIS
               </div>
               <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-0.5">
                 MARISAFE
@@ -252,7 +252,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess, gloveM
             </div>
             <button
               onClick={() => {
-                setUsername('chief.vance@poseidon.maris');
+                setUsername('chief.vance@simo.maris');
                 setPassword('••••••••••••');
                 triggerSuccess();
               }}

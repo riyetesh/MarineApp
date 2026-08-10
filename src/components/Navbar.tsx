@@ -103,7 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </div>
             <div className="text-[11px] text-slate-400 flex items-center gap-2 font-mono">
-              <span>M/V POSEIDON VOYAGER</span>
+              <span>M/Y SIMO</span>
               <span className="text-slate-600">•</span>
               <span className="hidden sm:inline">{currentTime}</span>
             </div>

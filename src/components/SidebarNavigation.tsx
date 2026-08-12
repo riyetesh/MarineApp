@@ -192,8 +192,8 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({
         <div className="pt-3 border-t border-slate-100">
           <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 text-xs">
             <div className="flex items-center justify-between text-slate-700 font-bold mb-1">
-              <span>WATER MIST LINE</span>
-              <span className="text-slate-900 font-mono">18.4 BAR</span>
+              <span>SUPPRESSION LINE</span>
+              <span className="text-slate-900 font-mono">100 BAR</span>
             </div>
             <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden mb-1.5">
               <div className="bg-slate-800 h-full rounded-full w-[98.5%]" />

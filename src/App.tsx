@@ -160,11 +160,11 @@ export default function App() {
       fireZone: 3,
       timestamp: 'Just Now',
       shortDescription: 'Thermal sensor IR-301 spiked to 88.6°C. High probability of fuel line rupture near Purifier Unit #2.',
-      affectedEquipment: ['Purifier Unit #2', 'Main Aux Engine 3', 'Water Mist Valve 3A'],
+      affectedEquipment: ['Purifier Unit #2', 'Main Aux Engine 3', 'Suppression Valve 3A'],
       responsibleOfficer: userRole === 'manager' ? 'Capt. E. Sterling' : 'Chief Engineer S. Vance',
       acknowledged: false,
       escalationStatus: 'Level 1 Escalate',
-      recommendedAction: 'Verify Zone 3 evacuation, verify automated ventilation closure, and confirm Water Mist pre-discharge horn.',
+      recommendedAction: 'Verify Zone 3 evacuation, verify automated ventilation closure, and confirm suppression pre-discharge horn.',
       riskScore: 94,
       aiConfidence: 98.2,
       sopId: 'SOP-FIRE-03A',
@@ -241,7 +241,7 @@ export default function App() {
     // Trigger Web Push
     triggerPushNotification(
       'IEC 62443 CYBER INTRUSION DETECTED',
-      'Modbus TCP packet flood targeting Water Mist Solenoid V-202 in Cargo Hold 2.'
+      'Modbus TCP packet flood targeting Suppression Solenoid V-202 in Cargo Hold 2.'
     );
   };
 
@@ -345,7 +345,7 @@ export default function App() {
                     setActiveTab={setActiveTab}
                     onSendTestPush={() => triggerPushNotification(
                       'MARISAFE EMERGENCY PUSH ALERT',
-                      'SOLAS II-2 Water Mist Line 100 Bar Operational & Enclave Synced.'
+                      'SOLAS II-2 Precision Suppression Line 100 BAR Operational & Enclave Synced.'
                     )}
                   />
                 )}
@@ -429,7 +429,7 @@ export default function App() {
               <span>•</span>
               <span>Encrypted Dual PLC Channel</span>
               <span>•</span>
-              <span>Water Mist High-Pressure System</span>
+              <span>Precision Fire Suppression System</span>
             </div>
           </div>
         </footer>

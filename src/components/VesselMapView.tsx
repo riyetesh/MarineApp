@@ -51,7 +51,7 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
       fireZone: 1,
       temperature: 22,
       smokePpm: 5,
-      pressureBar: 18.4,
+      pressureBar: 100.0,
       waterMistStatus: 'Standby',
       valvePosition: 'Closed',
       sensorHealthPct: 100,
@@ -114,7 +114,7 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-2xl font-black text-white tracking-tight">
+                  <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                     Spatial Deck Telemetry & Compartment Safety Topography
                   </h2>
                   <span className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] font-mono font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
@@ -468,12 +468,12 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                       </g>
                     )}
 
-                    {/* Water Mist Spray Animation Overlay if Simulating */}
+                    {/* Fire Suppression Spray Animation Overlay if Simulating */}
                     {simulatingMist === 'bridge' && (
                       <g transform="translate(350, 50)">
                         <rect x="0" y="0" width="220" height="80" fill="url(#mistSprayGradient)" rx="6" />
-                        <text x="60" y="45" fill="#0284c7" fontSize="11" fontWeight="black" className="animate-bounce">
-                          💦 100 BAR MIST SPRAYING
+                        <text x="50" y="45" fill="#0284c7" fontSize="11" fontWeight="black" className="animate-bounce">
+                          💦 100 BAR SPRAY DISCHARGING
                         </text>
                       </g>
                     )}
@@ -738,12 +738,12 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                       </g>
                     )}
 
-                    {/* Water Mist Spray Effect if active */}
+                    {/* Fire Suppression Spray Effect if active */}
                     {simulatingMist === 'eng-room-lower' && (
                       <g transform="translate(260, 50)">
                         <rect x="0" y="0" width="220" height="80" fill="url(#mistSprayGradient)" rx="6" />
                         <text x="50" y="45" fill="#0284c7" fontSize="11" fontWeight="black" className="animate-bounce">
-                          💦 100 BAR MIST SPRAYING
+                          💦 100 BAR SPRAY DISCHARGING
                         </text>
                       </g>
                     )}
@@ -753,7 +753,7 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                     <circle cx="465" cy="65" r="4" fill="#ef4444" />
                   </g>
 
-                  {/* Water Mist Pump Room ('pump-room') */}
+                  {/* Fire Suppression Pump Room ('pump-room') */}
                   <g 
                     onClick={() => onSelectCompartment('pump-room')}
                     onMouseEnter={() => setHoveredRoom('pump-room')}
@@ -770,7 +770,7 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                       PUMP ROOM
                     </text>
                     <text x="490" y="96" fill="#cbd5e1" fontSize="8">
-                      100 BAR MIST
+                      100 BAR PUMP
                     </text>
 
                     {/* Blinking Cyan Pump LED */}
@@ -840,9 +840,9 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                     <circle cx="230" cy="42" r="5" fill="#10b981" />
                     <text x="246" y="46">NOMINAL / SECURE (GREEN)</text>
 
-                    {/* Water Mist Nozzle */}
+                    {/* Suppression Spray Nozzle */}
                     <polygon points="12,68 6,76 18,76" fill="#0284c7" />
-                    <text x="28" y="74">100 BAR WATER MIST SPRAY</text>
+                    <text x="28" y="74">100 BAR SUPPRESSION DISCHARGE</text>
 
                     {/* Divider */}
                     <line x1="0" y1="88" x2="430" y2="88" stroke="#1e293b" />
@@ -851,7 +851,7 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                     <text x="0" y="108" fontWeight="bold">CURRENT VESSEL SAFETY SCORE:</text>
                     <text x="200" y="108" fill="#34d399" fontWeight="900" fontSize="13">99.8% (SOLAS NOMINAL)</text>
 
-                    <text x="0" y="128" fontWeight="bold">SOLAS MIST VALVE PRESSURE:</text>
+                    <text x="0" y="128" fontWeight="bold">SOLAS VALVE PRESSURE:</text>
                     <text x="200" y="128" fill="#38bdf8" fontWeight="bold">100 BAR OPERATIONAL</text>
                   </g>
                 </g>
@@ -880,9 +880,9 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
               <div className="text-[10px] font-bold text-blue-400 font-mono uppercase tracking-wider">
                 SCADA INSPECTOR • ZONE {activeComp.fireZone}
               </div>
-              <h3 className="text-2xl font-black text-white mt-0.5 tracking-tight">{activeComp.name}</h3>
+              <h3 className="text-xl font-bold text-white mt-0.5 tracking-tight">{activeComp.name}</h3>
             </div>
-            <span className={`px-3 py-1 rounded-xl text-xs font-black font-mono uppercase ${
+            <span className={`px-3 py-1 rounded-xl text-xs font-bold font-mono uppercase ${
               isErrorComp(activeComp)
                 ? 'bg-red-600 text-white animate-pulse shadow-lg shadow-red-600/40'
                 : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
@@ -891,12 +891,12 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
             </span>
           </div>
 
-          {/* Interactive Water Mist Test Button */}
+          {/* Interactive Water Suppression Test Button */}
           <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold font-mono text-slate-300 flex items-center gap-1.5">
                 <Droplet className="w-4 h-4 text-sky-400" />
-                SOLAS II-2 WATER MIST SYSTEM
+                SOLAS II-2 FIRE SUPPRESSION SYSTEM
               </span>
               <span className="text-[10px] font-mono font-bold text-emerald-400">100 BAR READY</span>
             </div>
@@ -912,7 +912,7 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
             >
               <Wind className="w-4 h-4" />
               <span>
-                {simulatingMist === activeComp.id ? 'MIST DISCHARGING (4s TEST)...' : `SIMULATE MIST DISCHARGE IN ${activeComp.code}`}
+                {simulatingMist === activeComp.id ? 'SPRAY DISCHARGING (4s TEST)...' : `SIMULATE DISCHARGE IN ${activeComp.code}`}
               </span>
             </button>
           </div>
@@ -925,16 +925,16 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
                 <span>ACTIVE SCADA INCIDENT</span>
               </div>
               <p className="text-xs text-red-100 leading-relaxed font-sans">
-                Sensors in <strong>{activeComp.name}</strong> registered abnormal threshold breaches. Water mist valve status is <strong>{activeComp.waterMistStatus}</strong>.
+                Sensors in <strong>{activeComp.name}</strong> registered abnormal threshold breaches. Fire suppression valve status is <strong>{activeComp.waterMistStatus}</strong>.
               </p>
             </div>
           )}
 
           {/* Environmental Gauges */}
-          <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+          <div className="grid grid-cols-2 gap-3 text-xs">
             <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-400 uppercase font-sans block font-bold">Temperature</span>
-              <span className={`text-2xl font-black mt-1 block ${
+              <span className="text-[10px] text-slate-400 uppercase font-sans block font-semibold">Temperature</span>
+              <span className={`text-xl font-bold mt-1 block ${
                 activeComp.temperature > 50 ? 'text-red-400' : 'text-white'
               }`}>
                 {activeComp.temperature}°C
@@ -943,8 +943,8 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
             </div>
 
             <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-400 uppercase font-sans block font-bold">Smoke Density</span>
-              <span className={`text-2xl font-black mt-1 block ${
+              <span className="text-[10px] text-slate-400 uppercase font-sans block font-semibold">Smoke Density</span>
+              <span className={`text-xl font-bold mt-1 block ${
                 activeComp.smokePpm > 100 ? 'text-red-400' : 'text-white'
               }`}>
                 {activeComp.smokePpm} PPM
@@ -953,16 +953,16 @@ export const VesselMapView: React.FC<VesselMapViewProps> = ({
             </div>
 
             <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-400 uppercase font-sans block font-bold">Water Mist Line</span>
-              <span className="text-sm font-black text-sky-400 mt-1 block">
+              <span className="text-[10px] text-slate-400 uppercase font-sans block font-semibold">Suppression Line</span>
+              <span className="text-sm font-bold text-sky-400 mt-1 block">
                 {activeComp.waterMistStatus}
               </span>
               <span className="text-[9px] text-slate-500 font-sans block mt-0.5">Line Pressure: 100 BAR</span>
             </div>
 
             <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
-              <span className="text-[10px] text-slate-400 uppercase font-sans block font-bold">PLC Cyber Security</span>
-              <span className="text-sm font-black text-emerald-400 mt-1 block">
+              <span className="text-[10px] text-slate-400 uppercase font-sans block font-semibold">PLC Cyber Security</span>
+              <span className="text-sm font-bold text-emerald-400 mt-1 block">
                 {activeComp.cyberStatus}
               </span>
               <span className="text-[9px] text-slate-500 font-sans block mt-0.5">IEC 62443 SL3</span>

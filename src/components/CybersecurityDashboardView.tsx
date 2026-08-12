@@ -105,7 +105,7 @@ export const CybersecurityDashboardView: React.FC<CybersecurityDashboardProps> =
                 IEC 62443 SL3 HARDENED
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">Zero Trust Industrial Cyber Defense</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mt-0.5">Zero Trust Industrial Cyber Defense</h2>
             <p className="text-xs text-slate-500">
               Real-time Modbus TCP packet inspection, dual-PLC isolation, and hardware-enforced air gap protection.
             </p>
@@ -181,8 +181,8 @@ export const CybersecurityDashboardView: React.FC<CybersecurityDashboardProps> =
             <span>FIREWALL HEALTH</span>
             <ShieldCheck className="w-4 h-4 text-slate-700" />
           </div>
-          <div className="text-2xl font-black text-slate-900">{cyberMetrics.firewallHealthPct}%</div>
-          <div className="text-xs text-emerald-700 font-bold flex items-center gap-1">
+          <div className="text-2xl font-bold text-slate-900">{cyberMetrics.firewallHealthPct}%</div>
+          <div className="text-xs text-emerald-700 font-semibold flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5" />
             0 Malicious Packet Ingress
           </div>
@@ -194,8 +194,8 @@ export const CybersecurityDashboardView: React.FC<CybersecurityDashboardProps> =
             <span>INTRUSION PREVENTION</span>
             <Radio className="w-4 h-4 text-cyan-600 animate-pulse" />
           </div>
-          <div className="text-2xl font-black text-slate-900">100% Active</div>
-          <div className="text-xs text-slate-600 font-mono">{cyberMetrics.threatsBlockedToday} Threats Intercepted Today</div>
+          <div className="text-2xl font-bold text-slate-900">100% Active</div>
+          <div className="text-xs text-slate-600 font-sans">{cyberMetrics.threatsBlockedToday} Threats Intercepted Today</div>
         </div>
 
         {/* Failed Logins */}
@@ -204,7 +204,7 @@ export const CybersecurityDashboardView: React.FC<CybersecurityDashboardProps> =
             <span>AUTH ATTEMPTS (24H)</span>
             <Lock className="w-4 h-4 text-amber-600" />
           </div>
-          <div className="text-2xl font-black text-slate-900">{cyberMetrics.failedLogins24h} Blocked</div>
+          <div className="text-2xl font-bold text-slate-900">{cyberMetrics.failedLogins24h} Blocked</div>
           <div className="text-xs text-slate-500 font-sans">FIDO2 Biometric Hardened</div>
         </div>
 
@@ -214,8 +214,8 @@ export const CybersecurityDashboardView: React.FC<CybersecurityDashboardProps> =
             <span>ECC-384 ENCLAVE KEY</span>
             <KeyRound className="w-4 h-4 text-emerald-600" />
           </div>
-          <div className="text-lg font-black text-slate-900">Hardware Bound</div>
-          <div className="text-xs text-emerald-700 font-bold">Valid thru Nov 2028</div>
+          <div className="text-lg font-bold text-slate-900">Hardware Bound</div>
+          <div className="text-xs text-emerald-700 font-semibold">Valid thru Nov 2028</div>
         </div>
       </div>
 

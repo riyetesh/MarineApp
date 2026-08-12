@@ -65,7 +65,7 @@ export const SystemBackupView: React.FC<SystemBackupViewProps> = ({ vesselStatus
 
     setTimeout(() => {
       setFlashProgress(55);
-      setFlashStep('Flashing Primary PLC-01 Water Mist Logic Registers...');
+      setFlashStep('Flashing Primary PLC-01 Fire Suppression Logic Registers...');
     }, 2500);
 
     setTimeout(() => {
@@ -150,7 +150,7 @@ export const SystemBackupView: React.FC<SystemBackupViewProps> = ({ vesselStatus
                   IEC 62443 SL3 ENCLAVE
                 </span>
               </div>
-              <h2 className="text-2xl font-black text-slate-900 mt-0.5">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mt-0.5">
                 Firmware Updates & Cryptographic Backup Center
               </h2>
               <p className="text-xs text-slate-500">
@@ -194,7 +194,7 @@ export const SystemBackupView: React.FC<SystemBackupViewProps> = ({ vesselStatus
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
                 <span className="text-[10px] text-slate-500 uppercase block font-sans">Primary Master PLC-01</span>
-                <span className="text-sm font-bold text-slate-900 mt-1 block">Water Mist Interlock {firmwareVersion}</span>
+                <span className="text-sm font-bold text-slate-900 mt-1 block">Suppression Interlock {firmwareVersion}</span>
                 <span className="text-[10px] text-emerald-700 font-bold block mt-0.5">● Dual Active Synced</span>
               </div>
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
@@ -215,7 +215,7 @@ export const SystemBackupView: React.FC<SystemBackupViewProps> = ({ vesselStatus
                         Firmware Update v4.3.0-SOLAS Available
                       </h4>
                       <p className="text-xs text-blue-800 mt-0.5">
-                        Includes IMO MSC.1/Circ.1472 water mist valve timing optimization & anti-spoofing Modbus patch.
+                        Includes IMO MSC.1/Circ.1472 suppression valve timing optimization & anti-spoofing Modbus patch.
                       </p>
                     </div>
                   </div>
@@ -288,7 +288,7 @@ export const SystemBackupView: React.FC<SystemBackupViewProps> = ({ vesselStatus
             </div>
 
             <p className="text-xs text-slate-600">
-              Create cryptographically signed, tamper-proof snapshots of vessel safety configurations, water mist valve section thresholds, and incident audit logs.
+              Create cryptographically signed, tamper-proof snapshots of vessel safety configurations, suppression valve section thresholds, and incident audit logs.
             </p>
 
             {/* Action buttons */}
@@ -388,58 +388,68 @@ export const SystemBackupView: React.FC<SystemBackupViewProps> = ({ vesselStatus
           <div className="flex items-center gap-2">
             <FileCheck className="w-6 h-6 text-slate-800" />
             <div>
-              <h3 className="text-lg font-black text-slate-900">Maritime Law & IMO / SOLAS Safety Certification Matrix</h3>
+              <h3 className="text-base font-bold text-slate-900">Maritime Law & IMO / SOLAS Safety Certification Matrix</h3>
               <p className="text-xs text-slate-500">
                 Official compliance verification for Port State Control (PSC), Flag State Authorities, and IACS Class Societies.
               </p>
             </div>
           </div>
-          <button 
-            onClick={handleCreateBackup}
-            className="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-2 transition-colors"
-          >
-            <FileSpreadsheet className="w-4 h-4 text-slate-700" />
-            <span>Generate PSC Audit Report (PDF/JSON)</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <a 
+              href="/Thesis_Chapter_4_11_Operational_Decision_Support.docx" 
+              download="Thesis_Chapter_4_11_Operational_Decision_Support.docx"
+              className="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-2 transition-colors shadow-sm"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Master's Thesis Chapter (.docx)</span>
+            </a>
+            <button 
+              onClick={handleCreateBackup}
+              className="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-2 transition-colors"
+            >
+              <FileSpreadsheet className="w-4 h-4 text-slate-700" />
+              <span>Generate PSC Audit Report (PDF/JSON)</span>
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-mono">
           <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-1">
-            <div className="text-slate-500 text-[10px] font-bold uppercase font-sans">FIRE PROTECTION</div>
-            <div className="font-black text-slate-900 text-sm">SOLAS Chapter II-2</div>
+            <div className="text-slate-500 text-[10px] font-semibold uppercase font-sans">FIRE PROTECTION</div>
+            <div className="font-bold text-slate-900 text-sm">SOLAS Chapter II-2</div>
             <p className="text-[11px] text-slate-600 font-sans mt-1">
               Regulation 10 compliance for fixed water-based fire extinguishing & detection.
             </p>
-            <span className="inline-block mt-2 text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">
+            <span className="inline-block mt-2 text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-semibold">
               ✔ CERTIFIED PASSED
             </span>
           </div>
 
           <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-1">
-            <div className="text-slate-500 text-[10px] font-bold uppercase font-sans">WATER MIST STANDARD</div>
-            <div className="font-black text-slate-900 text-sm">IMO MSC.1/Circ.1472</div>
+            <div className="text-slate-500 text-[10px] font-semibold uppercase font-sans">FIRE SUPPRESSION STANDARD</div>
+            <div className="font-bold text-slate-900 text-sm">IMO MSC.1/Circ.1472</div>
             <p className="text-[11px] text-slate-600 font-sans mt-1">
-              Equivalent water mist systems for machinery spaces & pump rooms (18.4 Bar baseline).
+              Equivalent fire suppression systems for machinery spaces & pump rooms (100 BAR baseline).
             </p>
-            <span className="inline-block mt-2 text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">
-              ✔ 100% PRESSURE OK
+            <span className="inline-block mt-2 text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-semibold">
+              ✔ 100 BAR NOMINAL OK
             </span>
           </div>
 
           <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-1">
-            <div className="text-slate-500 text-[10px] font-bold uppercase font-sans">INDUSTRIAL CYBERSECURITY</div>
-            <div className="font-black text-slate-900 text-sm">IEC 62443 SL3</div>
+            <div className="text-slate-500 text-[10px] font-semibold uppercase font-sans">INDUSTRIAL CYBERSECURITY</div>
+            <div className="font-bold text-slate-900 text-sm">IEC 62443 SL3</div>
             <p className="text-[11px] text-slate-600 font-sans mt-1">
               Zero trust network segmentation & Modbus packet integrity for IACS Automation.
             </p>
-            <span className="inline-block mt-2 text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">
+            <span className="inline-block mt-2 text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-semibold">
               ✔ HARDENED SHIELD
             </span>
           </div>
 
           <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-1">
-            <div className="text-slate-500 text-[10px] font-bold uppercase font-sans">CLASS RESILIENCE</div>
-            <div className="font-black text-slate-900 text-sm">IACS UR E26 / E27</div>
+            <div className="text-slate-500 text-[10px] font-semibold uppercase font-sans">CLASS RESILIENCE</div>
+            <div className="font-bold text-slate-900 text-sm">IACS UR E26 / E27</div>
             <p className="text-[11px] text-slate-600 font-sans mt-1">
               Cyber resilience for shipborne systems and equipment integrity verification.
             </p>

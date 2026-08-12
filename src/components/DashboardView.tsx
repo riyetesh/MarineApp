@@ -87,7 +87,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
               Mode: {userRole === 'manager' ? 'Managerial (CEO / Executive)' : 'Technical Engineer (SCADA Telemetry)'}
             </div>
-            <h1 className="text-lg sm:text-xl font-black text-slate-900">
+            <h1 className="text-lg sm:text-xl font-bold text-slate-900">
               {userRole === 'manager' ? 'Executive Ship Safety Summary' : 'Engine Room Telemetry & PLC Interlocks'}
             </h1>
           </div>
@@ -151,11 +151,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   {userRole === 'manager' ? 'EXECUTIVE VIEW' : 'ENGINEER SCADA'}
                 </span>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white mt-1">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1">
                 {vesselStatus.name}
               </h2>
-              <p className="text-sm font-medium text-slate-300 mt-1 leading-relaxed">
-                14,000 TEU Container Ship / LNG Fueled • SOLAS II-2 Compliant Automated Mist & PLC Safety Engine
+              <p className="text-sm font-normal text-slate-300 mt-1 leading-relaxed">
+                14,000 TEU Container Ship / LNG Fueled • SOLAS II-2 Compliant Automated Fire Suppression & PLC Safety Engine
               </p>
             </div>
           </div>
@@ -169,10 +169,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             }`}>
               <div className="w-3.5 h-3.5 rounded-full bg-emerald-400 animate-ping" />
               <div>
-                <div className="text-[10px] font-mono uppercase font-bold tracking-wider text-emerald-400">
+                <div className="text-[10px] font-sans uppercase font-semibold tracking-wider text-emerald-400">
                   VESSEL SAFETY SCORE
                 </div>
-                <div className="text-2xl sm:text-3xl font-black text-white font-mono leading-none mt-0.5">
+                <div className="text-2xl sm:text-3xl font-bold text-white leading-none mt-0.5">
                   {vesselStatus.overallHealth}%
                 </div>
               </div>
@@ -200,29 +200,29 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             >
               <div className="p-5 sm:p-6 border-b border-slate-200 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4 text-xs text-slate-700">
                 <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
-                  <div className="text-[10px] text-slate-500 uppercase font-bold">Vessel Location</div>
-                  <div className="font-black text-slate-900 mt-1 flex items-center gap-1.5 text-sm">
+                  <div className="text-[10px] text-slate-500 uppercase font-semibold">Vessel Location</div>
+                  <div className="font-bold text-slate-900 mt-1 flex items-center gap-1.5 text-sm">
                     <Compass className="w-4 h-4 text-blue-600" />
                     {userRole === 'manager' ? 'North Atlantic Ocean' : `${vesselStatus.lat}`}
                   </div>
                 </div>
 
                 <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
-                  <div className="text-[10px] text-slate-500 uppercase font-bold">Current Speed</div>
-                  <div className="font-black text-slate-900 mt-1 flex items-center gap-1.5 text-sm">
+                  <div className="text-[10px] text-slate-500 uppercase font-semibold">Current Speed</div>
+                  <div className="font-bold text-slate-900 mt-1 flex items-center gap-1.5 text-sm">
                     <Navigation className="w-4 h-4 text-emerald-600" />
                     {vesselStatus.speedKnots} knots
                   </div>
                 </div>
 
                 <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
-                  <div className="text-[10px] text-slate-500 uppercase font-bold">Sea Condition</div>
-                  <div className="font-black text-slate-900 mt-1 text-sm">Moderate Sea (3.2m)</div>
+                  <div className="text-[10px] text-slate-500 uppercase font-semibold">Sea Condition</div>
+                  <div className="font-bold text-slate-900 mt-1 text-sm">Moderate Sea (3.2m)</div>
                 </div>
 
                 <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
-                  <div className="text-[10px] text-slate-500 uppercase font-bold">Fire Safety System</div>
-                  <div className={`font-black mt-1 text-sm ${
+                  <div className="text-[10px] text-slate-500 uppercase font-semibold">Fire Safety System</div>
+                  <div className={`font-bold mt-1 text-sm ${
                     vesselStatus.activeFireCount > 0 ? 'text-red-600' : 'text-emerald-700'
                   }`}>
                     {vesselStatus.activeFireCount > 0 ? 'Fire Warning' : '100% Armed & Ready'}
@@ -279,7 +279,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* Visual SCADA Schematics & Infographics Component */}
       <InfographicVisualizer
         vesselSafetyScore={vesselStatus.overallHealth}
-        waterMistPressure={18.4}
+        waterMistPressure={100}
         tankLevelPct={98.5}
         activeZone={vesselStatus.activeFireCount > 0 ? 3 : 1}
         onSelectZone={(zoneId) => {
@@ -319,22 +319,22 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 /* MANAGERIAL LEVEL CARDS: Minimal, High-Level CEO/Supervisor Cards */
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm space-y-2">
-                    <div className="flex items-center justify-between text-xs text-slate-500 font-bold uppercase tracking-wider">
+                    <div className="flex items-center justify-between text-xs text-slate-500 font-semibold uppercase tracking-wider">
                       <span>Overall Fleet Safety Rating</span>
                       <CheckCircle2 className="w-5 h-5 text-emerald-600" />
                     </div>
-                    <div className="text-3xl font-black text-slate-900">98.4%</div>
+                    <div className="text-3xl font-bold text-slate-900">98.4%</div>
                     <p className="text-xs text-emerald-700 font-medium">
                       Vessel is operating safely and compliant with international maritime standards (SOLAS).
                     </p>
                   </div>
 
                   <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm space-y-2">
-                    <div className="flex items-center justify-between text-xs text-slate-500 font-bold uppercase tracking-wider">
+                    <div className="flex items-center justify-between text-xs text-slate-500 font-semibold uppercase tracking-wider">
                       <span>Pending Safety Actions</span>
                       <Flame className={`w-5 h-5 ${unacknowledged.length > 0 ? 'text-red-600' : 'text-slate-400'}`} />
                     </div>
-                    <div className={`text-3xl font-black ${unacknowledged.length > 0 ? 'text-red-600' : 'text-slate-900'}`}>
+                    <div className={`text-3xl font-bold ${unacknowledged.length > 0 ? 'text-red-600' : 'text-slate-900'}`}>
                       {unacknowledged.length === 0 ? '0 Pending' : `${unacknowledged.length} Action Needed`}
                     </div>
                     <p className="text-xs text-slate-600">
@@ -343,69 +343,69 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </div>
 
                   <div className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm space-y-2">
-                    <div className="flex items-center justify-between text-xs text-slate-500 font-bold uppercase tracking-wider">
+                    <div className="flex items-center justify-between text-xs text-slate-500 font-semibold uppercase tracking-wider">
                       <span>Fire Extinguisher Status</span>
                       <Droplet className="w-5 h-5 text-blue-600" />
                     </div>
-                    <div className="text-3xl font-black text-slate-900">Optimal (98%)</div>
+                    <div className="text-3xl font-bold text-slate-900">Optimal (98%)</div>
                     <p className="text-xs text-emerald-700 font-medium">
-                      High-pressure water mist safety system is primed and armed.
+                      Precision fire suppression safety system is primed and armed.
                     </p>
                   </div>
                 </div>
               ) : (
                 /* ENGINEER LEVEL CARDS: Deep Technical SCADA Telemetry */
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm font-mono">
-                    <div className="flex items-center justify-between text-xs text-slate-500 font-sans font-bold">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                    <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
                       <span>FIRE SENSORS</span>
                       <Flame className="w-4 h-4 text-emerald-600" />
                     </div>
-                    <div className="text-xl font-black text-slate-900 mt-1">142 / 142</div>
+                    <div className="text-xl font-bold text-slate-900 mt-1">142 / 142</div>
                     <div className="text-[11px] text-emerald-700 font-sans mt-1">
                       Scan: 50ms Loop
                     </div>
                   </div>
 
-                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm font-mono">
-                    <div className="flex items-center justify-between text-xs text-slate-500 font-sans font-bold">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                    <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
                       <span>PLC NODE</span>
                       <Cpu className="w-4 h-4 text-blue-600" />
                     </div>
-                    <div className="text-lg font-black text-slate-900 mt-1">Dual Sync</div>
+                    <div className="text-lg font-bold text-slate-900 mt-1">Dual Sync</div>
                     <div className="text-[11px] text-slate-600 font-sans mt-1">
                       PLC-01 Primary
                     </div>
                   </div>
 
-                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm font-mono">
-                    <div className="flex items-center justify-between text-xs text-slate-500 font-sans font-bold">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                    <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
                       <span>LATENCY</span>
                       <Wifi className="w-4 h-4 text-slate-700" />
                     </div>
-                    <div className="text-xl font-black text-slate-900 mt-1">8 ms</div>
+                    <div className="text-xl font-bold text-slate-900 mt-1">8 ms</div>
                     <div className="text-[11px] text-slate-600 font-sans mt-1">
                       Modbus Ring OK
                     </div>
                   </div>
 
-                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm font-mono">
-                    <div className="flex items-center justify-between text-xs text-slate-500 font-sans font-bold">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                    <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
                       <span>CYBER SHIELD</span>
                       <ShieldCheck className="w-4 h-4 text-indigo-600" />
                     </div>
-                    <div className="text-lg font-black text-slate-900 mt-1">SL3 Active</div>
+                    <div className="text-lg font-bold text-slate-900 mt-1">SL3 Active</div>
                     <div className="text-[11px] text-slate-600 font-sans mt-1">
                       Zero Trust
                     </div>
                   </div>
 
-                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm font-mono">
-                    <div className="flex items-center justify-between text-xs text-slate-500 font-sans font-bold">
-                      <span>MIST PRESS</span>
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                    <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
+                      <span>SUPPRESSION PRESS</span>
                       <Droplet className="w-4 h-4 text-blue-600" />
                     </div>
-                    <div className="text-xl font-black text-slate-900 mt-1">18.4 Bar</div>
+                    <div className="text-xl font-bold text-slate-900 mt-1">100 BAR</div>
                     <div className="text-[11px] text-blue-700 font-sans mt-1">
                       Pump Standby
                     </div>
@@ -478,7 +478,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                         <h4 className="font-bold text-sm sm:text-base text-slate-900">{item.title}</h4>
                         <p className="text-xs text-slate-600 line-clamp-2 mt-1">
                           {userRole === 'manager' 
-                            ? 'High temperature reading reported in engine room area. Automated water mist fire protection is prepped.' 
+                            ? 'High temperature reading reported in engine room area. Automated fire suppression is prepped.' 
                             : item.shortDescription}
                         </p>
                       </div>
@@ -523,7 +523,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <p className="text-xs text-slate-500">
               {userRole === 'manager'
                 ? 'Overview of main vessel compartments and automatic fire protection status.'
-                : 'Detailed SCADA telemetry, sensor readings, and water mist valve interlocks.'}
+                : 'Detailed SCADA telemetry, sensor readings, and suppression valve interlocks.'}
             </p>
           </div>
 

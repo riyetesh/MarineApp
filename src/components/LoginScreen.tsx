@@ -68,10 +68,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess, gloveM
               <Anchor className="w-8 h-8 text-blue-400" />
             </div>
             <div>
-              <div className="text-xs font-mono text-blue-300 font-bold uppercase tracking-widest">
+              <div className="text-xs text-blue-300 font-semibold uppercase tracking-wider">
                 M/Y SIMO • MARIS
               </div>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white mt-0.5">
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white mt-0.5">
                 MARISAFE
               </h1>
               <p className="text-xs text-blue-300 font-semibold mt-0.5">

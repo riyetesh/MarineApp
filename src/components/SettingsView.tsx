@@ -24,7 +24,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({ gloveMode, setGloveM
       <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-2">
         <div className="flex items-center gap-2">
           <Settings className="w-6 h-6 text-slate-800" />
-          <h2 className="text-2xl font-black text-slate-900">System Parameters & SCADA Settings</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">System Parameters & SCADA Settings</h2>
         </div>
         <p className="text-xs text-slate-500">
           Configure notification alerts, role permissions, satellite cloud synchronization, and IEC 62443 compliance options.

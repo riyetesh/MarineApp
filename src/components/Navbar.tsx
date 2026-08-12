@@ -92,7 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-black text-base sm:text-lg tracking-tight text-white">
+              <span className="font-bold text-base sm:text-lg tracking-tight text-white">
                 MARISAFE
               </span>
               <span className="text-[10px] bg-blue-950/80 border border-blue-600/50 text-blue-300 font-semibold px-2 py-0.5 rounded">

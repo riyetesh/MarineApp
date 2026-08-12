@@ -22,7 +22,7 @@ interface InfographicProps {
 
 export const InfographicVisualizer: React.FC<InfographicProps> = ({
   vesselSafetyScore = 98.4,
-  waterMistPressure = 18.4,
+  waterMistPressure = 100,
   tankLevelPct = 98.5,
   activeZone = 3,
   onSelectZone,
@@ -36,7 +36,7 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
         <div>
           <div className="flex items-center gap-2">
             <Gauge className="w-6 h-6 text-blue-600" />
-            <h3 className="text-xl font-black text-slate-900">
+            <h3 className="text-xl font-bold text-slate-900">
               Visual SCADA Infographics & System Schematics
             </h3>
           </div>
@@ -46,7 +46,7 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
         </div>
 
         {/* Infographic Mode Selector Tabs */}
-        <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-bold font-mono">
+        <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-semibold">
           <button
             onClick={() => setActiveTab('hydraulic')}
             className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all ${
@@ -56,7 +56,7 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
             }`}
           >
             <Droplet className="w-3.5 h-3.5" />
-            <span>Water Mist Flow</span>
+            <span>Suppression Flow</span>
           </button>
 
           <button
@@ -85,13 +85,13 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
         </div>
       </div>
 
-      {/* 1. Hydraulic Water Mist SCADA Schematic Diagram */}
+      {/* 1. Hydraulic Fire Suppression SCADA Schematic Diagram */}
       {activeTab === 'hydraulic' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between text-xs font-mono text-slate-600">
             <span className="font-bold flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-ping" />
-              SOLAS II-2 WATER MIST HYDRAULIC SCHEMATIC (SOLENOIDS V-101 TO V-501)
+              SOLAS II-2 FIRE SUPPRESSION HYDRAULIC SCHEMATIC (SOLENOIDS V-101 TO V-501)
             </span>
             <span className="text-emerald-700 font-bold">PUMP LINE: {waterMistPressure} BAR</span>
           </div>
@@ -128,7 +128,7 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
               {/* Main Suction Line to Pumps */}
               <path d="M 130 140 L 210 140" stroke="url(#pipeWater)" strokeWidth="8" fill="none" />
 
-              {/* Dual High-Pressure Pumps (Pump A & Pump B) */}
+              {/* Dual System Pumps (Pump A & Pump B) */}
               <g>
                 <circle cx="240" cy="110" r="24" fill="#1E293B" stroke="#38BDF8" strokeWidth="3" />
                 <text x="240" y="114" fill="#38BDF8" fontSize="10" fontWeight="bold" textAnchor="middle">PUMP A</text>
@@ -139,13 +139,13 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
                 <text x="240" y="208" fill="#64748B" fontSize="9" fontWeight="bold" textAnchor="middle">STANDBY</text>
               </g>
 
-              {/* High Pressure Manifold Pipe */}
+              {/* System Manifold Pipe */}
               <path d="M 264 110 L 320 110 L 320 140 L 400 140" stroke="url(#pipeWater)" strokeWidth="8" fill="none" />
               <path d="M 264 170 L 320 170 L 320 140" stroke="url(#pipeWater)" strokeWidth="4" strokeDasharray="4,4" fill="none" />
 
               {/* Pressure Sensor Node Gauge */}
               <circle cx="360" cy="140" r="14" fill="#0284C7" stroke="#38BDF8" strokeWidth="2" />
-              <text x="360" y="144" fill="#FFFFFF" fontSize="9" fontWeight="bold" textAnchor="middle">18.4 B</text>
+              <text x="360" y="144" fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle">{waterMistPressure} BAR</text>
 
               {/* Distribution Solenoid Valves for Fire Zones */}
               {[
@@ -179,28 +179,28 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
             </svg>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
             <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
               <span className="text-[10px] text-slate-500 font-sans block uppercase font-semibold">MAX SYSTEM PRESSURE</span>
-              <span className="text-base font-black text-slate-900">100 BAR</span>
+              <span className="text-base font-bold text-slate-900">100 BAR</span>
               <span className="text-[10px] text-slate-500 block font-sans">Rated SOLAS II-2 Cap</span>
             </div>
 
             <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
               <span className="text-[10px] text-slate-500 font-sans block uppercase font-semibold">LAST TESTED PRESSURE</span>
-              <span className="text-base font-black text-emerald-700">100 BAR</span>
+              <span className="text-base font-bold text-emerald-700">100 BAR</span>
               <span className="text-[10px] text-slate-600 block font-sans">Synced: 2026-08-09 08:00 UTC</span>
             </div>
 
             <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
               <span className="text-[10px] text-slate-500 font-sans block uppercase font-semibold">RECOMMENDED PRESSURE</span>
-              <span className="text-base font-black text-blue-700">85 – 100 BAR</span>
-              <span className="text-[10px] text-slate-500 block font-sans">Nominal High-Pressure Mist</span>
+              <span className="text-base font-bold text-blue-700">85 – 100 BAR</span>
+              <span className="text-[10px] text-slate-500 block font-sans">Nominal Suppression Pressure</span>
             </div>
 
             <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
               <span className="text-[10px] text-slate-500 font-sans block uppercase font-semibold">RESERVOIR & VALVES</span>
-              <span className="text-base font-black text-slate-900">{tankLevelPct}% FULL</span>
+              <span className="text-base font-bold text-slate-900">{tankLevelPct}% FULL</span>
               <span className="text-[10px] text-emerald-700 block font-sans">5 Solenoids Synced</span>
             </div>
           </div>
@@ -212,7 +212,7 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
           {/* Circular SVG Meter for Overall Safety Score */}
           <div className="bg-slate-900 text-white p-6 rounded-2xl border border-slate-800 flex flex-col items-center justify-center text-center space-y-3">
-            <div className="text-xs font-mono text-slate-400 uppercase font-bold">
+            <div className="text-xs font-sans text-slate-400 uppercase font-semibold">
               VESSEL SAFETY & FIRE RESILIENCE INDEX
             </div>
 
@@ -232,9 +232,9 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
                   className="transition-all duration-1000"
                 />
               </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center font-mono">
-                <span className="text-3xl font-black text-white">{vesselSafetyScore}%</span>
-                <span className="text-[9px] text-emerald-400 font-bold">SOLAS OPTIMAL</span>
+              <div className="absolute inset-0 flex flex-col items-center justify-center font-sans">
+                <span className="text-3xl font-bold text-white">{vesselSafetyScore}%</span>
+                <span className="text-[9px] text-emerald-400 font-semibold">SOLAS OPTIMAL</span>
               </div>
             </div>
 
@@ -314,7 +314,7 @@ export const InfographicVisualizer: React.FC<InfographicProps> = ({
                 <span className="text-[9px] bg-blue-950 text-blue-300 border border-blue-800 px-2 py-0.5 rounded">HOT SWAP SYNC</span>
               </div>
 
-              {/* Node 4: Water Mist Solenoids */}
+              {/* Node 4: Suppression Valve Solenoids */}
               <div className="bg-slate-800 p-3.5 rounded-xl border border-slate-700 flex flex-col items-center justify-center space-y-2">
                 <Droplet className="w-6 h-6 text-cyan-400" />
                 <span className="font-bold text-slate-100">VALVE ACTUATORS</span>

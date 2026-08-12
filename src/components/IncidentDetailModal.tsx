@@ -51,8 +51,8 @@ export const IncidentDetailView: React.FC<IncidentDetailViewProps> = ({
     { id: 2, title: 'Confirm Zone 3 Evacuation', description: 'Ensure no personnel inside Engine Room Lower Bilge', automated: false, completed: true },
     { id: 3, title: 'Close Automated Fire Dampers ER-3', description: 'Isolate ventilation loop to prevent oxygen feeding', automated: true, completed: true },
     { id: 4, title: 'Trip Fuel Oil Emergency Quick-Closing Valves', description: 'Isolate fuel supply lines leading to Purifier Unit 2', automated: true, completed: false },
-    { id: 5, title: 'Confirm Water Mist Pre-Discharge Horn', description: 'Audio/Visual warning sound active for 30s', automated: true, completed: false },
-    { id: 6, title: 'Release High-Pressure Water Mist Zone 3A', description: 'Activate solenoid V-301 at 18.4 Bar pump line', automated: false, completed: false },
+    { id: 5, title: 'Confirm Suppression Pre-Discharge Horn', description: 'Audio/Visual warning sound active for 30s', automated: true, completed: false },
+    { id: 6, title: 'Release Precision Fire Suppression Zone 3A', description: 'Activate solenoid V-301 at 100 BAR pump line', automated: false, completed: false },
   ]);
 
   const [mistDischarged, setMistDischarged] = useState(false);
@@ -102,13 +102,13 @@ export const IncidentDetailView: React.FC<IncidentDetailViewProps> = ({
         }`}>
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              <span className={`px-3 py-1 rounded-md text-xs font-black uppercase text-white ${
+              <span className={`px-3 py-1 rounded-md text-xs font-bold uppercase text-white ${
                 notification.severity === 'critical' ? 'bg-red-600' : 'bg-slate-800'
               }`}>
                 {notification.severity} INCIDENT
               </span>
 
-              <span className="bg-white border border-slate-200 text-slate-800 font-bold text-xs px-2.5 py-1 rounded-md">
+              <span className="bg-white border border-slate-200 text-slate-800 font-semibold text-xs px-2.5 py-1 rounded-md">
                 ZONE {notification.fireZone} • {notification.compartmentName}
               </span>
 
@@ -117,7 +117,7 @@ export const IncidentDetailView: React.FC<IncidentDetailViewProps> = ({
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
               {notification.title}
             </h1>
 
@@ -152,7 +152,7 @@ export const IncidentDetailView: React.FC<IncidentDetailViewProps> = ({
               }`}
             >
               <Droplet className="w-4 h-4" />
-              <span>{mistDischarged ? 'WATER MIST SPRAY ACTIVE' : 'RELEASE WATER MIST INTERLOCK'}</span>
+              <span>{mistDischarged ? 'SUPPRESSION SPRAY ACTIVE' : 'RELEASE FIRE SUPPRESSION INTERLOCK'}</span>
             </button>
           </div>
         </div>
@@ -160,10 +160,10 @@ export const IncidentDetailView: React.FC<IncidentDetailViewProps> = ({
         {/* System Status Indicators Row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 bg-slate-50 font-mono text-xs border-t border-slate-100">
           <div>
-            <div className="text-[10px] text-slate-500 font-sans uppercase">Water Mist Line</div>
+            <div className="text-[10px] text-slate-500 font-sans uppercase">Suppression Line</div>
             <div className="font-bold text-blue-700 mt-1 flex items-center gap-1">
               <Droplet className="w-4 h-4 text-blue-600" />
-              {mistDischarged ? 'SPRAY ACTIVE (18.4 Bar)' : 'INTERLOCK STANDBY'}
+              {mistDischarged ? 'SPRAY ACTIVE (100 BAR)' : 'INTERLOCK STANDBY'}
             </div>
           </div>
 
@@ -237,7 +237,7 @@ export const IncidentDetailView: React.FC<IncidentDetailViewProps> = ({
               <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono">
                 <div className="text-[10px] text-slate-500 uppercase font-sans">Suggested Suppression Method</div>
                 <div className="text-base font-bold text-slate-900 mt-1">
-                  High-Pressure Water Mist (Zone 3A)
+                  Precision Fire Suppression (Zone 3A)
                 </div>
                 <div className="text-xs text-slate-500 mt-1 font-sans">
                   Prevents thermal flashover without thermal shock to main engine block.
@@ -350,33 +350,33 @@ export const IncidentDetailView: React.FC<IncidentDetailViewProps> = ({
         </div>
       </div>
 
-      {/* Confirmation Modal for Water Mist Release */}
+      {/* Confirmation Modal for Fire Suppression Release */}
       {showDischargeModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white border-2 border-red-600 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5">
             <div className="flex items-center gap-3 text-red-600">
               <AlertTriangle className="w-8 h-8 animate-bounce" />
               <div>
-                <h3 className="text-lg font-black text-slate-900 uppercase">CONFIRM HIGH-PRESSURE MIST DISCHARGE</h3>
-                <p className="text-xs text-red-600 font-bold">WATER MIST SECTION VALVE V-301 (ZONE 3 - ENGINE ROOM)</p>
+                <h3 className="text-base font-bold text-slate-900 uppercase">CONFIRM FIRE SUPPRESSION DISCHARGE</h3>
+                <p className="text-xs text-red-600 font-semibold">SUPPRESSION SECTION VALVE V-301 (ZONE 3 - ENGINE ROOM)</p>
               </div>
             </div>
 
             <p className="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-              You are authorizing the release of 18.4 Bar High-Pressure Water Mist in <strong>Engine Room Lower Bilge (Zone 3)</strong>. Ensure all crew members have evacuated Zone 3.
+              You are authorizing the release of 100 BAR Precision Fire Suppression in <strong>Engine Room Lower Bilge (Zone 3)</strong>. Ensure all crew members have evacuated Zone 3.
             </p>
 
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 onClick={() => setShowDischargeModal(false)}
-                className="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl text-xs hover:bg-slate-200"
+                className="px-4 py-2.5 bg-slate-100 text-slate-700 font-semibold rounded-xl text-xs hover:bg-slate-200"
               >
                 Cancel
               </button>
 
               <button
                 onClick={handleDischargeWaterMist}
-                className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-black rounded-xl text-xs flex items-center gap-2 shadow-sm"
+                className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm"
               >
                 <Droplet className="w-4 h-4" />
                 <span>CONFIRM DISCHARGE NOW</span>

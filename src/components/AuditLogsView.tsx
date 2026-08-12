@@ -76,7 +76,7 @@ export const AuditLogsView: React.FC<AuditLogsViewProps> = ({
             <ShieldCheck className="w-4 h-4" />
             <span>IEC 62443 Security Audit Log</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-900">
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900">
             Authenticated User Activity Trail
           </h1>
           <p className="text-xs text-slate-500 mt-1">

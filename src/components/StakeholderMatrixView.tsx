@@ -60,10 +60,10 @@ export const StakeholderMatrixView: React.FC<StakeholderMatrixViewProps> = ({ ma
             <Users className="w-7 h-7" />
           </div>
           <div>
-            <div className="text-xs font-mono text-slate-500 font-bold uppercase tracking-widest flex items-center gap-2">
+            <div className="text-xs text-slate-500 font-semibold uppercase tracking-wider flex items-center gap-2">
               <span>SOLAS II-2 & ISM CODE ESCALATION CHAIN</span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mt-0.5">
               Stakeholder Escalation & Channel Matrix
             </h2>
             <p className="text-xs text-slate-500">
@@ -95,7 +95,7 @@ export const StakeholderMatrixView: React.FC<StakeholderMatrixViewProps> = ({ ma
         <table className="w-full text-left border-collapse text-xs font-mono">
           <thead>
             <tr className="bg-slate-50 text-slate-700 border-b border-slate-200 uppercase text-[11px] font-bold">
-              <th className="p-4 font-sans text-slate-900 font-black min-w-[220px]">Officer / Stakeholder Role</th>
+              <th className="p-4 font-sans text-slate-900 font-bold min-w-[220px]">Officer / Stakeholder Role</th>
               <th className="p-4 text-slate-600">Low Severity</th>
               <th className="p-4 text-amber-700">Medium Severity</th>
               <th className="p-4 text-amber-900">High Severity</th>

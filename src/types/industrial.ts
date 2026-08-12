@@ -3,7 +3,7 @@ export type SeverityLevel = 'info' | 'resolved' | 'warning' | 'critical' | 'cybe
 export interface FireSensor {
   id: string;
   name: string;
-  type: 'Smoke' | 'Thermal IR' | 'Flame UV' | 'Gas (CO2)' | 'Water Mist Pressure';
+  type: 'Smoke' | 'Thermal IR' | 'Flame UV' | 'Gas (CO2)' | 'Suppression Pressure';
   status: 'healthy' | 'warning' | 'critical' | 'offline';
   value: string;
   unit: string;

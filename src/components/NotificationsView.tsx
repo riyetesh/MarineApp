@@ -67,8 +67,8 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
     if (onSendTestPush) {
       onSendTestPush();
     } else if (pushStatus === 'granted') {
-      new Notification('TEST PUSH ALERT: SOLAS II-2 Water Mist System', {
-        body: 'Verified: High-Pressure Water Mist Line 18.4 Bar Ready.',
+      new Notification('TEST PUSH ALERT: SOLAS II-2 Precision Suppression System', {
+        body: 'Verified: Precision Fire Suppression Line 100 BAR Ready.',
         icon: '/favicon.ico'
       });
     }
@@ -98,7 +98,7 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
     switch (severity) {
       case 'critical':
         return (
-          <span className="bg-red-600 text-white text-xs font-black uppercase px-2.5 py-1 rounded-md flex items-center gap-1 shadow-sm">
+          <span className="bg-red-600 text-white text-xs font-bold uppercase px-2.5 py-1 rounded-md flex items-center gap-1 shadow-sm">
             <Flame className="w-3.5 h-3.5" />
             CRITICAL FIRE EMERGENCY
           </span>
@@ -142,10 +142,10 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <Bell className="w-6 h-6 text-slate-800" />
-              <h2 className="text-2xl font-black text-slate-900">Vessel Notifications Center</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Vessel Notifications Center</h2>
             </div>
             <p className="text-xs text-slate-500 mt-1">
-              Real-time alarm timeline, IEC 62443 cyber events, water mist triggers, and officer assignments.
+              Real-time alarm timeline, IEC 62443 cyber events, suppression triggers, and officer assignments.
             </p>
           </div>
 
@@ -304,7 +304,7 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
                     {/* Left: Main Title & Structured Narrative */}
                     <div className="space-y-3 flex-1">
                       <div className="flex items-center gap-2">
-                        <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                        <h3 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">
                           {notif.title}
                         </h3>
                       </div>
